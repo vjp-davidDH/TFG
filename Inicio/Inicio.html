@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TripCollab — Mis Viajes</title>
     <meta name="description" content="Gestiona y planifica todos tus viajes colaborativos en TripCollab.">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/Inicio.css">
 </head>
 
 <body class="dashboard-body">
@@ -24,7 +24,7 @@
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar" aria-label="Navegación principal">
         <div class="nav-inner">
-            <a href="viajes.html" class="nav-brand" aria-label="TripCollab — Ir a mis viajes">
+            <a href="Inicio.html" class="nav-brand" aria-label="TripCollab — Ir a mis viajes">
                 <span class="nav-logo-icon" aria-hidden="true">✈</span>
                 <span class="nav-logo-text">TripCollab</span>
             </a>
@@ -39,20 +39,26 @@
             </div>
 
             <div class="nav-right">
-                <!-- Avatar como botón para accesibilidad táctil/teclado -->
-                <button class="nav-avatar" id="nav-avatar" aria-label="Mi perfil" title="Mi perfil">
-                    <span id="avatar-initials" aria-hidden="true">?</span>
-                </button>
-
-                <button class="nav-logout" id="btn-logout" aria-label="Cerrar sesión" onclick="logout()">
-                    <span>Salir</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-                </button>
+                <div class="user-dropdown-container">
+                    <button class="nav-avatar" id="nav-avatar" aria-label="Menú de usuario" title="Mi cuenta" onclick="toggleDropdown()">
+                        <span id="avatar-initials" aria-hidden="true">JD</span>
+                    </button>
+                    <div class="user-dropdown hidden" id="user-dropdown">
+                        <a href="../Perfil/Perfil.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span> Ver perfil
+                        </a>
+                        <a href="Inicio.html" class="dropdown-item">
+                            <span class="dropdown-icon">🗺️</span> Mis planes
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="dropdown-icon">⭐</span> Mis favoritos
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" onclick="logout()">
+                            <span class="dropdown-icon">🚪</span> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -173,7 +179,14 @@
     <!-- ===== TOAST ===== -->
     <div class="toast hidden" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-    <script src="dashboard.js"></script>
+    <!-- ===== LANGUAGE TOGGLE ===== -->
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()" aria-label="Cambiar idioma">
+        <span id="lang-text">ES</span>
+        <span class="lang-flag" id="lang-flag">🇪🇸</span>
+    </button>
+
+    <script src="js/Inicio.js"></script>
+    <script src="../js/i18n.js"></script>
 </body>
 
 </html>

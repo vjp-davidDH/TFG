@@ -348,3 +348,147 @@ h1, h2, h3, h4, h5, h6 {
 p {
     margin-bottom: 1.2em;
 }
+
+/* --- Global Navbar (Midnight Voyage) --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: hsla(210, 30%, 8%, 0.65);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+    height: 64px;
+}
+
+.nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.nav-logo-icon {
+    font-size: 22px;
+}
+
+.nav-logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, hsl(175, 80%, 60%), hsl(224, 100%, 70%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-center { flex: 1; }
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(175, 70%, 45%), hsl(224, 90%, 60%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid hsla(175, 70%, 60%, 0.4);
+}
+
+/* --- Dropdown --- */
+.user-dropdown-container {
+    position: relative;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 200px;
+    background: hsla(210, 30%, 12%, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 10px 40px hsla(0, 0%, 0%, 0.4);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-dropdown.hidden {
+    display: none;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background: hsla(210, 30%, 20%, 0.8);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: hsla(0, 0%, 100%, 0.15);
+    margin: 6px 4px;
+}
+
+.logout-item {
+    color: #fca5a5;
+}
+
+/* --- Language Toggle --- */
+.lang-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Ajuste contenedor para navbar fija */
+.container {
+    padding-top: 100px;
+}
