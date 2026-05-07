@@ -1226,3 +1226,78 @@ button#login-btn:hover .btn-arrow {
         background: hsl(222, 35%, 5%);
     }
 }
+
+/* =====================================================
+   12. PÁGINA DE RESERVA
+   ===================================================== */
+
+.reserva-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+    .reserva-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.booking-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    padding: 40px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.summary-card {
+    background: hsla(224, 100%, 62%, 0.05);
+    border: 1px solid hsla(224, 100%, 62%, 0.2);
+    border-radius: var(--radius-card);
+    padding: 30px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    backdrop-filter: blur(10px);
+}
+
+.form-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.summary-total {
+    border-top: 1px solid var(--border-card);
+    padding-top: 16px;
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+}

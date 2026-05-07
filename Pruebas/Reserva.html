@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripCollab — Reservar Experiencia</title>
+    <meta name="description" content="Reserva tu próxima aventura en TripCollab.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Saltar al contenido principal -->
+    <a href="#dash-main" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- Fondo animado -->
+    <div class="bg-orbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar" aria-label="Navegación principal">
+        <div class="nav-inner">
+            <a href="Inicio.html" class="nav-brand" aria-label="TripCollab — Ir al inicio">
+                <span class="nav-logo-icon" aria-hidden="true">✈</span>
+                <span class="nav-logo-text">TripCollab</span>
+            </a>
+
+            <div class="nav-center">
+                <!-- Espacio vacío o búsqueda si se requiere -->
+            </div>
+
+            <div class="nav-right">
+                <button class="nav-avatar" id="nav-avatar" aria-label="Mi perfil" title="Mi perfil">
+                    <span aria-hidden="true">JD</span>
+                </button>
+                <button class="nav-logout" id="btn-logout" aria-label="Cerrar sesión">
+                    <span>Salir</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="dash-main" id="dash-main" tabindex="-1">
+
+        <header class="dash-header">
+            <div class="dash-header-text">
+                <h1 class="dash-title">Reserva tu Aventura</h1>
+                <p class="dash-subtitle">Completa los detalles para confirmar tu próxima experiencia colaborativa.</p>
+            </div>
+        </header>
+
+        <div class="reserva-container">
+            <!-- Formulario Principal -->
+            <section class="booking-form">
+                <h2 class="form-section-title">
+                    <span aria-hidden="true">📍</span> Información del Destino
+                </h2>
+
+                <div class="input-group">
+                    <label for="destino" class="sr-only">Destino</label>
+                    <span class="input-icon" aria-hidden="true">🌍</span>
+                    <select id="destino"
+                        style="width: 100%; padding: 13px 14px 13px 42px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: var(--radius-input); color: var(--text-primary); font-family: 'Outfit', sans-serif;">
+                    </select>
+                </div>
+
+                <div class="form-grid" style="margin-top: 32px;">
+                    <div>
+                        <h2 class="form-section-title" style="font-size: 16px;">
+                            <span aria-hidden="true">📅</span> Fecha de Ida
+                        </h2>
+                        <div class="input-group">
+                            <span class="input-icon" aria-hidden="true">🗓️</span>
+                            <input type="date" id="fecha-ida">
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="form-section-title" style="font-size: 16px;">
+                            <span aria-hidden="true">🏁</span> Fecha de Vuelta
+                        </h2>
+                        <div class="input-group">
+                            <span class="input-icon" aria-hidden="true">🗓️</span>
+                            <input type="date" id="fecha-vuelta">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 32px;">
+                    <h2 class="form-section-title">
+                        <span aria-hidden="true">👥</span> Pasajeros y Clase
+                    </h2>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <span class="input-icon" aria-hidden="true">👤</span>
+                            <input type="number" id="pasajeros" value="1" min="1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-icon" aria-hidden="true">💎</span>
+                            <select id="clase"
+                                style="width: 100%; padding: 13px 14px 13px 42px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: var(--radius-input); color: var(--text-primary); font-family: 'Outfit', sans-serif;">
+                                <option value="economy">Económica</option>
+                                <option value="business">Business</option>
+                                <option value="first">Primera Clase</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <button class="btn-crear" style="width: 100%; justify-content: center; padding: 16px;">
+                        <span>Confirmar Reserva</span>
+                        <span class="btn-crear-icon" aria-hidden="true">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Resumen de Reserva -->
+            <aside class="summary-card">
+                <h2 class="form-section-title" style="margin-bottom: 20px;">Resumen</h2>
+
+                <div class="summary-item">
+                    <span>Destino</span>
+                    <span id="summary-destino" style="color: var(--text-primary);">---</span>
+                </div>
+                <div class="summary-item">
+                    <span>Duración</span>
+                    <span id="summary-duracion">0 Días</span>
+                </div>
+                <div class="summary-item">
+                    <span>Vuelo (ida/vuelta)</span>
+                    <span id="summary-vuelo">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Seguro de viaje</span>
+                    <span id="summary-seguro">$0</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total Estimado</span>
+                    <span id="summary-total">$0</span>
+                </div>
+
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 20px; line-height: 1.4;">
+                    * Los precios pueden variar según la disponibilidad y fechas seleccionadas.
+                </p>
+            </aside>
+        </div>
+
+    </main>
+    <script src="reserva.js"></script>
+</body>
+
+</html>
