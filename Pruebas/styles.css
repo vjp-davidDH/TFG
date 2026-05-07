@@ -1301,3 +1301,86 @@ button#login-btn:hover .btn-arrow {
     font-weight: 800;
     color: white;
 }
+
+/* --- SECCIÓN DE PAGOS --- */
+.payment-section {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.payment-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.payment-method {
+    background: hsla(220, 25%, 20%, 0.4);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    height: 48px;
+}
+
+.payment-method:hover {
+    background: hsla(220, 25%, 25%, 0.6);
+    border-color: var(--primary-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px hsla(224, 100%, 62%, 0.2);
+}
+
+.payment-method svg {
+    height: 24px;
+    width: auto;
+    max-width: 80%;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.payment-method.paypal:hover { border-color: #0070ba; box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3); }
+.payment-method.mastercard:hover { border-color: #eb001b; box-shadow: 0 4px 15px rgba(235, 0, 27, 0.3); }
+.payment-method.visa:hover { border-color: #1a1f71; box-shadow: 0 4px 15px rgba(26, 31, 113, 0.3); }
+.payment-method.apple:hover { border-color: #ffffff; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2); }
+
+.btn-checkout {
+    margin-top: 8px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 25px hsla(224, 100%, 62%, 0.3);
+    transition: all var(--transition);
+}
+
+.btn-checkout:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px hsla(224, 100%, 62%, 0.5);
+    filter: brightness(1.1);
+}
+
+.btn-checkout:active {
+    transform: translateY(-1px);
+}
