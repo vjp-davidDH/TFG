@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Plan | TriCollab</title>
+    <link rel="stylesheet" href="css/lista_planes.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="lista_planes.html" class="logo" style="text-decoration: none;">TriCollab</a>
+            <nav>
+                <a href="lista_planes.html" class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); text-decoration: none;">
+                    Volver a la lista
+                </a>
+            </nav>
+        </header>
+
+        <main id="detail-container">
+            <!-- Content will be injected by JS -->
+            <div style="text-align: center; padding: 5rem;">
+                <p>Cargando detalles de tu aventura...</p>
+            </div>
+        </main>
+
+        <!-- Edit Modal -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <h2 style="margin-bottom: 2rem;">Editar Plan de Viaje</h2>
+                <form id="edit-form">
+                    <div class="form-group">
+                        <label>Título del Viaje</label>
+                        <input type="text" id="edit-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Destino</label>
+                        <input type="text" id="edit-destination" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="edit-description" rows="4"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn-primary">Guardar Cambios</button>
+                        <button type="button" id="close-modal" class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/detalles_plan.js"></script>
+</body>
+</html>
