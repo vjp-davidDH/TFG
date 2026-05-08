@@ -15,15 +15,16 @@ let busqueda      = '';
 
 // ─── Helpers ──────────────────────────────────────────
 
-// /** Devuelve el token o redirige al login si no existe */
-// function getToken() {
-//     const token = localStorage.getItem('token');
-//     if (!token) {
-//         window.location.href = 'sing_in.html';
-//         return null;
-//     }
-//     return token;
-// }
+/** Devuelve el token o redirige al login si no existe */
+function getToken() {
+    // Para desarrollo local sin backend real, podemos simular un token
+    const token = localStorage.getItem('token') || 'token_demo';
+    if (!token) {
+        window.location.href = '../Inicio de Sesion/Inicio_Sesion.html';
+        return null;
+    }
+    return token;
+}
 
 /** Muestra un toast con un mensaje y tipo ('success' | 'error') */
 function showToast(msg, tipo = 'success', duracion = 3500) {
@@ -100,7 +101,7 @@ async function cargarViajes() {
 
         if (res.status === 401) {
             localStorage.removeItem('token');
-            window.location.href = 'sing_in.html';
+            window.location.href = '../Inicio de Sesion/Inicio_Sesion.html';
             return;
         }
 
@@ -109,12 +110,14 @@ async function cargarViajes() {
         const data = await res.json();
         // Acepta tanto array directo como { viajes: [...] }
         todosLosViajes = Array.isArray(data) ? data : (data.viajes ?? []);
+        localStorage.setItem('viajes_cache', JSON.stringify(todosLosViajes));
         renderViajes();
 
     } catch (err) {
         console.error('Error cargando viajes:', err);
         // Si la API no está levantada, mostramos datos de demo para el prototipo
         todosLosViajes = datosDemo();
+        localStorage.setItem('viajes_cache', JSON.stringify(todosLosViajes));
         renderViajes();
         showToast('Backend no disponible — mostrando datos de demo', 'error', 5000);
     }
@@ -126,6 +129,8 @@ function renderViajes() {
     const grid      = document.getElementById('viajes-grid');
     const emptyEl   = document.getElementById('empty-state');
     const countEl   = document.getElementById('viajes-count');
+
+    if (!grid) return; // Evita errores en páginas sin la cuadrícula de viajes
 
     // Aplica filtro de rol
     let lista = todosLosViajes.filter(v => {
@@ -268,8 +273,24 @@ function verViaje(id) {
 function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = 'sing_in.html';
+    window.location.href = '../Inicio de Sesion/Inicio_Sesion.html';
 }
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('user-dropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+// Cerrar dropdown al hacer click fuera
+window.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('user-dropdown');
+    const avatar = document.getElementById('nav-avatar');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    }
+});
 
 // ─── Modal: Crear Viaje ───────────────────────────────
 
@@ -417,38 +438,5 @@ function limpiarErrorModal() {
 
 // ─── Datos de demo (cuando el backend no está disponible) ──
 function datosDemo() {
-    return [
-        {
-            id: 1,
-            titulo: 'Escapada a Roma',
-            destino: 'Roma, Italia',
-            fechaInicio: '2026-06-10',
-            fechaFin: '2026-06-17',
-            rol: 'creador'
-        },
-        {
-            id: 2,
-            titulo: 'Ruta por el norte de España',
-            destino: 'Asturias & Cantabria',
-            fechaInicio: '2026-07-01',
-            fechaFin: '2026-07-08',
-            rol: 'colaborador'
-        },
-        {
-            id: 3,
-            titulo: 'Aventura en Japón',
-            destino: 'Tokio, Japón',
-            fechaInicio: '2026-09-15',
-            fechaFin: '2026-09-28',
-            rol: 'admin'
-        },
-        {
-            id: 4,
-            titulo: 'Fin de semana en Lisboa',
-            destino: 'Lisboa, Portugal',
-            fechaInicio: '2026-05-20',
-            fechaFin: '2026-05-22',
-            rol: 'colaborador'
-        }
-    ];
+    return []; // Devolvemos un array vacío para mostrar el estado "sin viajes" por defecto
 }

@@ -1,0 +1,1386 @@
+/* =====================================================
+   TripCollab — Design System Unificado
+   Dark mode + Glassmorphism + Travel vibes
+   Incluye: Login · Dashboard · Accesibilidad
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* =====================================================
+   1. RESET & TOKENS
+   ===================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Colores principales */
+    --primary:      hsl(224, 100%, 62%);
+    --primary-glow: hsl(224, 100%, 70%);
+    --accent:       hsl(280, 90%, 65%);
+    --teal:         hsl(175, 70%, 50%);
+    --teal-glow:    hsl(175, 70%, 65%);
+
+    /* Fondos */
+    --bg-deep:      hsl(222, 30%, 8%);
+    --bg-card:      hsla(220, 25%, 14%, 0.7);
+
+    /* Bordes */
+    --border-card:  hsla(220, 40%, 60%, 0.15);
+
+    /* Texto */
+    --text-primary: hsl(210, 30%, 96%);
+    --text-muted:   hsl(215, 20%, 60%);
+
+    /* Inputs */
+    --input-bg:     hsla(220, 25%, 20%, 0.6);
+    --input-border: hsla(220, 40%, 50%, 0.2);
+    --input-focus:  hsl(224, 100%, 62%);
+
+    /* Formas */
+    --radius-card:  24px;
+    --radius-input: 14px;
+    --radius-btn:   14px;
+
+    /* Sombras */
+    --shadow-card:  0 25px 60px hsla(220, 50%, 5%, 0.5);
+
+    /* Transición global */
+    --transition:   0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* =====================================================
+   2. ACCESIBILIDAD
+   ===================================================== */
+
+/* Skip-link: visible solo al recibir foco de teclado */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    z-index: 9999;
+    padding: 10px 20px;
+    background: var(--primary);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 0 0 12px 12px;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+/* Texto solo para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Anillo de foco para navegación por teclado */
+:focus-visible {
+    outline: 3px solid hsl(175, 70%, 55%);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* Elimina outline en clics de ratón */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Error de formulario */
+.form-error {
+    font-size: 13px;
+    color: hsl(0, 70%, 72%);
+    background: hsla(0, 70%, 50%, 0.1);
+    border: 1px solid hsla(0, 70%, 50%, 0.3);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-top: -4px;
+}
+
+/* =====================================================
+   3. FONDO ANIMADO (orbes compartidos)
+   ===================================================== */
+
+.bg-orbs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: float 10s ease-in-out infinite;
+}
+
+/* Orbes login (azul-violeta) */
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, hsl(224, 100%, 55%), transparent 70%);
+    top: -150px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, hsl(280, 90%, 55%), transparent 70%);
+    bottom: -100px;
+    right: -80px;
+    animation-delay: -4s;
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, hsl(190, 80%, 50%), transparent 70%);
+    top: 50%;
+    left: 60%;
+    animation-delay: -7s;
+}
+
+/* Orbes dashboard (teal-verde azulado) */
+.dashboard-body .orb-1 {
+    background: radial-gradient(circle, hsl(175, 80%, 45%), transparent 70%);
+    width: 600px;
+    height: 600px;
+    top: -180px;
+    left: -120px;
+    opacity: 0.25;
+}
+
+.dashboard-body .orb-2 {
+    background: radial-gradient(circle, hsl(224, 90%, 55%), transparent 70%);
+    width: 450px;
+    height: 450px;
+    bottom: -120px;
+    right: -80px;
+    opacity: 0.28;
+}
+
+.dashboard-body .orb-3 {
+    background: radial-gradient(circle, hsl(155, 70%, 45%), transparent 70%);
+    width: 350px;
+    height: 350px;
+    top: 55%;
+    left: 65%;
+    opacity: 0.20;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+/* =====================================================
+   4. ANIMACIONES GLOBALES
+   ===================================================== */
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-8deg); }
+    50%       { transform: rotate(8deg); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* =====================================================
+   5. PÁGINA DE LOGIN
+   ===================================================== */
+
+/* Centra el login verticalmente */
+body:not(.dashboard-body) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Contenedor principal */
+.login-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 24px 16px;
+    width: 100%;
+    max-width: 420px;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- Brand --- */
+.brand {
+    text-align: center;
+}
+
+.logo-icon {
+    font-size: 40px;
+    display: inline-block;
+    animation: wiggle 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 16px hsla(224, 100%, 70%, 0.7));
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--primary-glow), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-top: 6px;
+}
+
+.tagline {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* --- Card de login --- */
+.login-box {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    padding: 36px 32px;
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.login-box h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+}
+
+/* --- Inputs del login --- */
+.input-group {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 13px 14px 13px 42px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-input);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.input-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.input-group input:focus {
+    border-color: var(--input-focus);
+    background: hsla(220, 25%, 22%, 0.8);
+    box-shadow: 0 0 0 3px hsla(224, 100%, 62%, 0.18);
+}
+
+/* --- Forgot --- */
+.forgot-row {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.forgot-link {
+    font-size: 13px;
+    color: var(--primary-glow);
+    text-decoration: none;
+    transition: opacity var(--transition);
+}
+
+.forgot-link:hover {
+    opacity: 0.7;
+}
+
+/* --- Botón CTA --- */
+button#login-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+    box-shadow: 0 4px 24px hsla(224, 100%, 62%, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+button#login-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, hsla(255, 255%, 255%, 0.12));
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+button#login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px hsla(224, 100%, 62%, 0.5);
+    filter: brightness(1.08);
+}
+
+button#login-btn:hover::before {
+    opacity: 1;
+}
+
+button#login-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 12px hsla(224, 100%, 62%, 0.3);
+}
+
+.btn-arrow {
+    font-size: 18px;
+    transition: transform var(--transition);
+}
+
+button#login-btn:hover .btn-arrow {
+    transform: translateX(4px);
+}
+
+/* --- Divisor --- */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-card);
+}
+
+/* --- Botones sociales --- */
+.social-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.social-row .social-btn {
+    width: auto;
+    padding: 11px 28px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 14px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-input);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
+    width: 100%;
+}
+
+.social-btn:hover {
+    background: hsla(220, 25%, 25%, 0.8);
+    border-color: hsla(220, 40%, 60%, 0.3);
+    transform: translateY(-1px);
+}
+
+/* --- Enlace de registro --- */
+.register-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.register-text a {
+    color: var(--primary-glow);
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity var(--transition);
+}
+
+.register-text a:hover {
+    opacity: 0.75;
+}
+
+/* =====================================================
+   6. DASHBOARD
+   ===================================================== */
+
+/* Fondo propio del dashboard */
+.dashboard-body {
+    display: block;
+    overflow: auto;
+    background:
+        radial-gradient(circle at 1px 1px, hsla(195, 60%, 55%, 0.18) 1px, transparent 0),
+        linear-gradient(160deg,
+            hsl(195, 40%, 10%) 0%,
+            hsl(222, 35%, 9%) 45%,
+            hsl(260, 30%, 10%) 100%);
+    background-size: 32px 32px, 100% 100%;
+}
+
+/* --- Navbar --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: hsla(210, 30%, 8%, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-card);
+    height: 64px;
+}
+
+.nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.nav-logo-icon {
+    font-size: 22px;
+    filter: drop-shadow(0 0 10px hsla(175, 80%, 55%, 0.8));
+    animation: wiggle 3s ease-in-out infinite;
+}
+
+.nav-logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, hsl(175, 80%, 60%), hsl(224, 100%, 70%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Barra de búsqueda */
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    pointer-events: none;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 14px 10px 40px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.search-bar input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-bar input:focus {
+    border-color: hsl(175, 70%, 50%);
+    box-shadow: 0 0 0 3px hsla(175, 70%, 50%, 0.15);
+}
+
+/* Nav derecha */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.nav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(175, 70%, 45%), hsl(224, 90%, 60%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid hsla(175, 70%, 60%, 0.4);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.nav-avatar:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 16px hsla(175, 70%, 50%, 0.5);
+}
+
+.nav-logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: hsla(0, 60%, 50%, 0.1);
+    border: 1px solid hsla(0, 60%, 50%, 0.2);
+    border-radius: 10px;
+    color: hsl(0, 70%, 72%);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.nav-logout:hover {
+    background: hsla(0, 60%, 50%, 0.2);
+    border-color: hsla(0, 60%, 50%, 0.4);
+    transform: translateY(-1px);
+}
+
+/* --- Contenido principal --- */
+.dash-main {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 96px 24px 48px;
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- Header del dashboard --- */
+.dash-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.dash-title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, hsl(175, 70%, 65%), hsl(224, 100%, 72%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+}
+
+.dash-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 6px;
+}
+
+/* --- Botón crear viaje --- */
+.btn-crear {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: linear-gradient(135deg, hsl(175, 70%, 45%), hsl(224, 90%, 60%));
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 22px hsla(175, 70%, 45%, 0.4);
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+    white-space: nowrap;
+}
+
+.btn-crear:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px hsla(175, 70%, 45%, 0.55);
+    filter: brightness(1.08);
+}
+
+.btn-crear:active {
+    transform: translateY(0);
+}
+
+.btn-crear-icon {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* --- Pestañas de filtro --- */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 8px 18px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.tab:hover {
+    background: hsla(175, 40%, 20%, 0.4);
+    border-color: hsla(175, 60%, 50%, 0.3);
+    color: var(--text-primary);
+}
+
+.tab.active {
+    background: linear-gradient(135deg, hsla(175, 70%, 40%, 0.3), hsla(224, 80%, 55%, 0.3));
+    border-color: hsla(175, 70%, 55%, 0.5);
+    color: hsl(175, 70%, 70%);
+    font-weight: 600;
+}
+
+/* --- Grid de viajes --- */
+.viajes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* --- Tarjeta de viaje --- */
+.viaje-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 8px 32px hsla(200, 40%, 5%, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    animation: fadeInCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    overflow: hidden;
+}
+
+.viaje-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(175, 70%, 50%), hsl(224, 90%, 65%));
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.viaje-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px hsla(175, 50%, 10%, 0.5);
+    border-color: hsla(175, 60%, 50%, 0.25);
+}
+
+.viaje-card:hover::before {
+    opacity: 1;
+}
+
+/* Card header */
+.card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    flex: 1;
+}
+
+/* Badges de rol (contraste mínimo 4.5:1 WCAG AA) */
+.role-badge {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.role-creador {
+    background: hsla(175, 70%, 30%, 0.3);
+    color: hsl(175, 80%, 75%);
+    border: 1px solid hsla(175, 70%, 55%, 0.4);
+}
+
+.role-admin {
+    background: hsla(40, 90%, 35%, 0.3);
+    color: hsl(40, 95%, 75%);
+    border: 1px solid hsla(40, 90%, 55%, 0.4);
+}
+
+.role-colaborador {
+    background: hsla(224, 80%, 45%, 0.3);
+    color: hsl(224, 90%, 82%);
+    border: 1px solid hsla(224, 80%, 65%, 0.4);
+}
+
+/* Destino */
+.card-destino {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.card-destino-icon {
+    font-size: 16px;
+}
+
+/* Fechas */
+.card-fechas {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: hsla(220, 25%, 18%, 0.5);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--input-border);
+}
+
+.card-fechas-icon {
+    font-size: 14px;
+}
+
+/* Botón Ver viaje */
+.btn-ver {
+    width: 100%;
+    padding: 11px;
+    background: hsla(175, 50%, 35%, 0.15);
+    border: 1px solid hsla(175, 60%, 50%, 0.25);
+    border-radius: 12px;
+    color: hsl(175, 65%, 65%);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all var(--transition);
+    margin-top: auto;
+}
+
+.btn-ver:hover {
+    background: linear-gradient(135deg, hsla(175, 70%, 40%, 0.3), hsla(224, 80%, 55%, 0.25));
+    border-color: hsla(175, 70%, 55%, 0.5);
+    color: hsl(175, 75%, 72%);
+    transform: translateY(-1px);
+}
+
+/* --- Skeleton loading --- */
+.skeleton-card {
+    min-height: 200px;
+    background: linear-gradient(90deg,
+        hsla(220, 25%, 15%, 0.6) 25%,
+        hsla(220, 25%, 22%, 0.6) 50%,
+        hsla(220, 25%, 15%, 0.6) 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+    cursor: default;
+    pointer-events: none;
+}
+
+.skeleton-card::before {
+    display: none;
+}
+
+/* --- Empty state --- */
+.empty-state {
+    text-align: center;
+    padding: 80px 24px;
+    animation: slideUp 0.5s ease both;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px hsla(175, 70%, 50%, 0.4));
+    animation: float 4s ease-in-out infinite;
+}
+
+.empty-state h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =====================================================
+   7. MODAL
+   ===================================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: hsla(220, 30%, 5%, 0.65);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.2s ease both;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 460px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 24px;
+    box-shadow: 0 32px 80px hsla(200, 40%, 3%, 0.6);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 28px 0;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, hsl(175, 70%, 65%), hsl(224, 100%, 72%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background var(--transition), color var(--transition);
+}
+
+.modal-close:hover {
+    background: hsla(0, 60%, 50%, 0.12);
+    color: hsl(0, 70%, 72%);
+}
+
+.modal-body {
+    padding: 24px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.modal-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.btn-modal-crear {
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+/* Date inputs en dark mode */
+.modal-body input[type="date"] {
+    color-scheme: dark;
+}
+
+/* =====================================================
+   8. TOAST
+   ===================================================== */
+
+.toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: hsla(220, 25%, 18%, 0.95);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 12px 22px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 300;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 28px hsla(200, 40%, 5%, 0.5);
+    animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    white-space: nowrap;
+}
+
+.toast.toast-success {
+    border-color: hsla(175, 70%, 50%, 0.4);
+    color: hsl(175, 70%, 70%);
+}
+
+.toast.toast-error {
+    border-color: hsla(0, 70%, 55%, 0.4);
+    color: hsl(0, 70%, 72%);
+}
+
+/* =====================================================
+   9. UTILIDADES
+   ===================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+/* =====================================================
+   10. MEDIA QUERIES
+   ===================================================== */
+
+/* --- Login responsive --- */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 28px 20px;
+        border-radius: 20px;
+    }
+
+    .logo {
+        font-size: 34px;
+    }
+}
+
+/* --- Dashboard responsive --- */
+@media (max-width: 600px) {
+    .dash-main {
+        padding: 80px 14px 40px;
+    }
+
+    .dash-title {
+        font-size: 26px;
+    }
+
+    .nav-inner {
+        padding: 0 14px;
+    }
+
+    .nav-logo-text {
+        display: none;
+    }
+
+    .viajes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-dates {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-box {
+        border-radius: 18px;
+    }
+
+    .tab {
+        font-size: 12px;
+        padding: 7px 13px;
+    }
+
+    /* Área táctil mínima 44×44px (WCAG 2.5.5) */
+    .tab,
+    .btn-ver,
+    .modal-close,
+    .nav-logout {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+@media (max-width: 400px) {
+    .btn-crear span:last-child {
+        display: none;
+    }
+}
+
+/* =====================================================
+   11. ACCESIBILIDAD AVANZADA
+   ===================================================== */
+
+/* Movimiento reducido (epilepsia, mareos, sensibilidad) */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .orb             { animation: none !important; }
+    .nav-logo-icon   { animation: none !important; }
+    .empty-icon      { animation: none !important; }
+
+    .skeleton-card {
+        animation: none !important;
+        background: hsla(220, 25%, 18%, 0.6) !important;
+    }
+}
+
+/* Alto contraste (baja visión / Windows HCM) */
+@media (prefers-contrast: more) {
+    .viaje-card {
+        border: 2px solid hsl(175, 70%, 70%);
+        background: hsl(222, 35%, 6%);
+    }
+
+    .tab {
+        border: 2px solid hsl(210, 30%, 60%);
+        color: hsl(210, 30%, 95%);
+    }
+
+    .tab.active {
+        border: 2px solid hsl(175, 70%, 70%);
+        color: hsl(175, 80%, 85%);
+        background: hsl(175, 70%, 15%);
+    }
+
+    .btn-crear {
+        border: 2px solid #fff;
+    }
+
+    .search-bar input,
+    .input-group input {
+        border: 2px solid hsl(210, 30%, 70%);
+        background: hsl(222, 30%, 10%);
+    }
+
+    .role-creador,
+    .role-admin,
+    .role-colaborador {
+        border-width: 2px;
+    }
+
+    .navbar {
+        border-bottom: 2px solid hsl(175, 70%, 60%);
+        background: hsl(222, 35%, 5%);
+    }
+}
+
+/* =====================================================
+   12. PÁGINA DE RESERVA
+   ===================================================== */
+
+.reserva-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+    .reserva-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.booking-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    padding: 40px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.summary-card {
+    background: hsla(224, 100%, 62%, 0.05);
+    border: 1px solid hsla(224, 100%, 62%, 0.2);
+    border-radius: var(--radius-card);
+    padding: 30px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    backdrop-filter: blur(10px);
+}
+
+.form-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.summary-total {
+    border-top: 1px solid var(--border-card);
+    padding-top: 16px;
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+}
+
+/* --- SECCIÓN DE PAGOS --- */
+.payment-section {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.payment-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.payment-method {
+    background: hsla(220, 25%, 20%, 0.4);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    height: 48px;
+}
+
+.payment-method:hover {
+    background: hsla(220, 25%, 25%, 0.6);
+    border-color: var(--primary-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px hsla(224, 100%, 62%, 0.2);
+}
+
+.payment-method svg {
+    height: 24px;
+    width: auto;
+    max-width: 80%;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.payment-method.paypal:hover { border-color: #0070ba; box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3); }
+.payment-method.mastercard:hover { border-color: #eb001b; box-shadow: 0 4px 15px rgba(235, 0, 27, 0.3); }
+.payment-method.visa:hover { border-color: #1a1f71; box-shadow: 0 4px 15px rgba(26, 31, 113, 0.3); }
+.payment-method.apple:hover { border-color: #ffffff; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2); }
+
+.btn-checkout {
+    margin-top: 8px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 25px hsla(224, 100%, 62%, 0.3);
+    transition: all var(--transition);
+}
+
+.btn-checkout:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px hsla(224, 100%, 62%, 0.5);
+    filter: brightness(1.1);
+}
+
+.btn-checkout:active {
+    transform: translateY(-1px);
+}

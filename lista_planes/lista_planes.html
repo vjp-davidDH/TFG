@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Planes de Viaje | Planificador Premium</title>
+    <meta name="description"
+        content="Organiza tus próximas aventuras con nuestro planificador de viajes de alta gama. Explora, gestiona y disfruta de tus destinos favoritos.">
+    <link rel="stylesheet" href="css/lista_planes.css">
+</head>
+
+<body>
+    <div class="container">
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="../Inicio/Inicio.html" class="nav-brand">
+                <span class="nav-logo-icon">✈</span>
+                <span class="nav-logo-text">TripCollab</span>
+            </a>
+
+            <div class="nav-center"></div>
+
+            <div class="nav-right">
+                <div class="user-dropdown-container">
+                    <button class="nav-avatar" id="nav-avatar" onclick="toggleDropdown()">
+                        <span id="avatar-initials">JD</span>
+                    </button>
+                    <div class="user-dropdown hidden" id="user-dropdown">
+                        <a href="../Perfil/Perfil.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span> Ver perfil
+                        </a>
+                        <a href="../Inicio/Inicio.html" class="dropdown-item">
+                            <span class="dropdown-icon">🗺️</span> Mis planes
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <span class="dropdown-icon">⭐</span> Mis favoritos
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" onclick="logout()">
+                            <span class="dropdown-icon">🚪</span> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+        <main>
+            <section class="hero">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; letter-spacing: -2px;">Lista de Viajes</h1>
+                <p style="color: var(--text-secondary); margin-bottom: 3rem; max-width: 600px;">
+                    Gestiona tus itinerarios, descubre nuevos destinos y mantén todos tus recuerdos de viaje en un solo
+                    lugar con nuestra interfaz inteligente.
+                </p>
+            </section>
+
+            <div class="controls">
+                <div class="search-wrapper">
+                    <input type="text" id="search-input" placeholder="Buscar destino o plan...">
+                </div>
+                <div class="filters">
+                    <!-- Filters can be added here -->
+                </div>
+            </div>
+
+            <div class="trip-grid" id="trip-grid">
+                <!-- Trip cards will be injected here by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 0;">
+            <div id="modal-body">
+                <!-- Dynamic content -->
+            </div>
+            <div style="padding: 2rem; border-top: 1px solid var(--card-border);">
+                <button id="close-details" class="btn-primary" style="width: 100%; justify-content: center;">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LANGUAGE TOGGLE ===== -->
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()">
+        <span id="lang-text">ES</span>
+        <span class="lang-flag" id="lang-flag">🇪🇸</span>
+    </button>
+
+    <script src="../Inicio/js/Inicio.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="js/lista_planes.js"></script>
+</body>
+
+</html>
