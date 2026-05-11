@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { UserIcon, MailIcon, LockIcon, SunIcon, MoonIcon } from '../components/Icons';
+import apiClient from '../services/api';
 
 const Register = () => {
     const [nombre, setNombre] = useState('');
@@ -12,9 +13,15 @@ const Register = () => {
     const { t, toggleLanguage, lang } = useLanguage();
     const { theme, toggleTheme } = useTheme();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        navigate('/login');
+        try {
+            await apiClient.auth.register(nombre, email, password);
+            alert(t('registerSuccess') || 'Registro exitoso. Ahora puedes iniciar sesión.');
+            navigate('/login');
+        } catch (error) {
+            alert('Error en el registro: ' + error.message);
+        }
     };
 
     return (

@@ -69,11 +69,11 @@
 
 .group:hover .card-3d-content {
   transform: rotateY(12deg) rotateX(6deg) translateY(-15px) scale(1.03);
-  @apply shadow-3xl shadow-teal/30 border-teal/60;
+  @apply shadow-2xl shadow-teal/30 border-teal/60;
 }
 
 .light .group:hover .card-3d-content {
-  @apply shadow-3xl shadow-primary/20 border-primary/50;
+  @apply shadow-2xl shadow-primary/20 border-primary/50;
 }
 
 /* Animated Border Light */

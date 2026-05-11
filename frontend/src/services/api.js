@@ -11,16 +11,21 @@ const apiClient = {
       headers['Authorization'] = `Bearer ${token}`;
     }
     try {
+      console.log(`API Request: ${options.method || 'GET'} ${API_URL}${endpoint}`);
       const response = await fetch(`${API_URL}${endpoint}`, {
         ...options,
         headers,
       });
       if (!response.ok) {
-        throw new Error(`API Error: ${response.statusText}`);
+        const errorData = await response.json().catch(() => ({}));
+        console.error('API Error Response:', errorData);
+        throw new Error(errorData.message || `API Error: ${response.statusText}`);
       }
-      return await response.json();
+      const data = await response.json();
+      console.log('API Response Success:', data);
+      return data;
     } catch (error) {
-      console.error('API Request Error:', error);
+      console.error('API Request Failed:', error);
       throw error;
     }
   },
@@ -51,6 +56,9 @@ const apiClient = {
     getAll: () => apiClient.request('/reservas'),
     create: (data) =>
       apiClient.request('/reservas', { method: 'POST', body: JSON.stringify(data) }),
+  },
+  destinations: {
+    getAll: () => apiClient.request('/destinos'),
   },
 };
 

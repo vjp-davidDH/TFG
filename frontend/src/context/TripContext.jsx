@@ -20,6 +20,8 @@ export const TripProvider = ({ children }) => {
         return saved ? JSON.parse(saved) : [];
     });
 
+    const [allDestinations, setAllDestinations] = useState([]);
+
     useEffect(() => {
         localStorage.setItem('user_reservations', JSON.stringify(reservations));
     }, [reservations]);
@@ -32,15 +34,32 @@ export const TripProvider = ({ children }) => {
         const fetchTrips = async () => {
             try {
                 const trips = await apiClient.trips.getAll();
-                setAvailableTrips(trips);
+                console.log('Trips from API:', trips);
+                const mappedTrips = trips.map(t => ({
+                    id: t.id_plan,
+                    titulo: t.nombre,
+                    destino: t.destino ? `${t.destino.ciudad}, ${t.destino.pais}` : 'Destino desconocido',
+                    precio: t.precio_total,
+                    descripcion: t.descripcion,
+                    rol: 'colaborador' // Valor por defecto si no viene del backend
+                }));
+                setAvailableTrips(mappedTrips);
             } catch (error) {
                 console.error('Error fetching trips:', error);
             }
         };
-        const token = localStorage.getItem('token');
-        if (token) {
-            fetchTrips();
-        }
+
+        const fetchDestinations = async () => {
+            try {
+                const destinations = await apiClient.destinations.getAll();
+                setAllDestinations(destinations);
+            } catch (error) {
+                console.error('Error fetching destinations:', error);
+            }
+        };
+
+        fetchTrips();
+        fetchDestinations();
     }, []);
 
     const addReservation = (trip) => {
@@ -62,7 +81,7 @@ export const TripProvider = ({ children }) => {
     };
 
     return (
-        <TripContext.Provider value={{ availableTrips, reservations, bookedTrips, addReservation, confirmBooking, setAvailableTrips }}>
+        <TripContext.Provider value={{ availableTrips, reservations, bookedTrips, allDestinations, addReservation, confirmBooking, setAvailableTrips }}>
             {children}
         </TripContext.Provider>
     );

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -13,7 +13,26 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     jwt.init_app(app)
-    CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:3000"]}})
+    
+    # CORS: permitir credenciales y origen específico del frontend
+    CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173"]}}, supports_credentials=True)
+
+    # Permitir preflight OPTIONS para todas las rutas /api/*
+    @app.before_request
+    def handle_options():
+        if request.method == 'OPTIONS':
+            return '', 200
+
+    @app.before_request
+    def log_request_info():
+        app.logger.info('Headers: %s', request.headers)
+        app.logger.info('Body: %s', request.get_data())
+
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        app.logger.error(f"Unhandled Exception: {str(e)}")
+        return {"error": "Internal Server Error", "message": str(e)}, 500
+
     @app.route("/")
     def home():
         return {"message": "API TripCollab funcionando"}

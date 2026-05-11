@@ -10,23 +10,37 @@ import apiClient from '../services/api';
 
 const Dashboard = ({ searchTerm }) => {
     const { t } = useLanguage();
-    const { availableTrips, setAvailableTrips } = useTrips();
+    const { availableTrips, setAvailableTrips, allDestinations } = useTrips();
     const [filtro, setFiltro] = useState('todos');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [nuevoViaje, setNuevoViaje] = useState({ titulo: '', destino: '', fechaInicio: null, fechaFin: null, precio: 500 });
+    const [nuevoViaje, setNuevoViaje] = useState({ titulo: '', id_destino: '', fechaInicio: null, fechaFin: null, precio: 500 });
 
     const handleCreateTrip = async (e) => {
         e.preventDefault();
-        if (!nuevoViaje.titulo || !nuevoViaje.destino || !nuevoViaje.fechaInicio || !nuevoViaje.fechaFin) {
+        if (!nuevoViaje.titulo || !nuevoViaje.id_destino || !nuevoViaje.fechaInicio || !nuevoViaje.fechaFin) {
             alert(t('errorFields'));
             return;
         }
         try {
-            const trip = await apiClient.trips.create(nuevoViaje);
-            setAvailableTrips([trip, ...availableTrips]);
+            const backendData = {
+                nombre: nuevoViaje.titulo,
+                id_destino: parseInt(nuevoViaje.id_destino),
+                precio_total: nuevoViaje.precio
+            };
+            const trip = await apiClient.trips.create(backendData);
+            
+            const mappedTrip = {
+                id: trip.id_plan,
+                titulo: trip.nombre,
+                destino: trip.destino ? `${trip.destino.ciudad}, ${trip.destino.pais}` : 'Destino desconocido',
+                precio: trip.precio_total,
+                rol: 'creador'
+            };
+
+            setAvailableTrips([mappedTrip, ...availableTrips]);
             setIsModalOpen(false);
-            setNuevoViaje({ titulo: '', destino: '', fechaInicio: null, fechaFin: null, precio: 500 });
+            setNuevoViaje({ titulo: '', id_destino: '', fechaInicio: null, fechaFin: null, precio: 500 });
         } catch (error) {
             alert('Error creando viaje: ' + error.message);
         }
@@ -114,15 +128,16 @@ const Dashboard = ({ searchTerm }) => {
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted"><MapPinIcon /></span>
                                 <select 
                                     className="w-full pl-12 pr-4 py-4 bg-white/5 border border-border-card rounded-2xl focus:outline-hidden focus:border-teal/50 transition-all text-text-primary appearance-none text-sm" 
-                                    value={nuevoViaje.destino}
-                                    onChange={(e) => setNuevoViaje({...nuevoViaje, destino: e.target.value})}
+                                    value={nuevoViaje.id_destino}
+                                    onChange={(e) => setNuevoViaje({...nuevoViaje, id_destino: e.target.value})}
                                     required
                                 >
                                     <option value="" disabled className="bg-bg-deep">{t('destination')}</option>
-                                    <option value="París, Francia" className="bg-bg-deep">París, Francia</option>
-                                    <option value="Cusco, Perú" className="bg-bg-deep">Cusco, Perú</option>
-                                    <option value="Tokyo, Japón" className="bg-bg-deep">Tokyo, Japón</option>
-                                    <option value="Nueva York, USA" className="bg-bg-deep">Nueva York, USA</option>
+                                    {allDestinations.map(d => (
+                                        <option key={d.id_destino} value={d.id_destino} className="bg-bg-deep">
+                                            {d.ciudad}, {d.pais}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
