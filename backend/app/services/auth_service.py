@@ -22,12 +22,20 @@ class AuthService:
 
     @staticmethod
     def login(email: str, password: str) -> dict:
+        print(f"DEBUG: login() called for email: '{email}'", flush=True)
         usuario = Usuario.query.filter_by(email=email).first()
         if not usuario:
             raise ValueError("Credenciales incorrectas.")
 
+        # Debug log (remover en producción)
+        print(f"DEBUG Login attempt: {email}")
+        
         # Permitir login con contraseña en texto plano para pruebas O con hash
-        is_correct = (usuario.password_hash == password) or check_password_hash(usuario.password_hash, password)
+        match_plain = (usuario.password_hash == password)
+        match_hash = check_password_hash(usuario.password_hash, password)
+        print(f"DEBUG match_plain: {match_plain}, match_hash: {match_hash}")
+        
+        is_correct = match_plain or match_hash
         if not is_correct:
             raise ValueError("Credenciales incorrectas.")
         

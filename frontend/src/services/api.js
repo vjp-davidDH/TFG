@@ -19,7 +19,7 @@ const apiClient = {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error('API Error Response:', errorData);
-        throw new Error(errorData.message || `API Error: ${response.statusText}`);
+        throw new Error(errorData.error || errorData.message || `API Error: ${response.status}`);
       }
       const data = await response.json();
       console.log('API Response Success:', data);

@@ -8,6 +8,7 @@ import apiClient from '../services/api';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const { t, toggleLanguage, lang } = useLanguage();
     const { theme, toggleTheme } = useTheme();
@@ -92,16 +93,23 @@ const Login = () => {
 
                         <div className="space-y-2">
                             <label className="text-xs font-black uppercase tracking-widest text-text-muted ml-4">{t('password')}</label>
-                            <div className="relative">
-                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-text-muted"><LockIcon /></span>
+                            <div className="relative group">
+                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-teal-glow transition-colors"><LockIcon /></span>
                                 <input 
-                                    type="password" 
-                                    className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-hidden focus:border-teal/50 transition-all text-sm text-text-primary placeholder:text-text-muted"
+                                    type={showPassword ? "text" : "password"} 
+                                    className="w-full pl-14 pr-12 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-hidden focus:border-teal/50 transition-all text-sm text-text-primary placeholder:text-text-muted"
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
+                                <button 
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-teal-glow transition-colors text-xs font-bold px-2"
+                                >
+                                    {showPassword ? t('hide') || 'Ocultar' : t('show') || 'Mostrar'}
+                                </button>
                             </div>
                         </div>
 
