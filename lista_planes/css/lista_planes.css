@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-color: #05070a;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: blur(12px);
+    
+    --primary-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    --accent-color: #00d2ff;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.8; /* Increased from 1.6 */
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(58, 123, 213, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 210, 255, 0.05) 0%, transparent 40%);
+    min-height: 100vh;
+    letter-spacing: 0.01em; /* Added subtle letter spacing */
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-top: 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Trip List Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    transition: var(--transition);
+}
+
+input[type="text"]:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.1);
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(58, 123, 213, 0.3);
+}
+
+/* Grid */
+.trip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Trip Card */
+.trip-card {
+    background: var(--card-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.trip-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(0, 210, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.trip-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.trip-card:hover .trip-image {
+    transform: scale(1.05);
+}
+
+.trip-content {
+    padding: 1.5rem;
+}
+
+.trip-tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(0, 210, 255, 0.1);
+    color: var(--accent-color);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.day-title {
+    color: var(--accent-color);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #0f172a;
+    border: 1px solid var(--card-border);
+    padding: 3rem;
+    border-radius: 32px;
+    width: 90%;
+    max-width: 600px;
+    animation: modalIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    transition: var(--transition);
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--accent-color);
+}
+
+.trip-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.trip-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.trip-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--card-border);
+    padding-top: 1rem;
+}
+
+.trip-status {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.status-upcoming { color: #10b981; }
+.status-completed { color: #64748b; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        margin-bottom: 2rem;
+    }
+
+    h1 {
+        font-size: 2.5rem !important;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-wrapper {
+        max-width: none;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+        border-radius: 20px;
+    }
+
+    .detail-hero {
+        height: 200px !important;
+    }
+
+    .detail-overlay h2 {
+        font-size: 1.8rem !important;
+    }
+}
+
+/* Detail View Styles (Used in Modal) */
+.detail-hero {
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+.detail-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2.5rem;
+    background: linear-gradient(to top, rgba(5, 7, 10, 0.95), transparent);
+    z-index: 2;
+}
+
+.detail-overlay h2 {
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    word-wrap: break-word;
+}
+
+.detail-content {
+    padding: 2.5rem;
+}
+
+.itinerary-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--card-border);
+    transition: var(--transition);
+}
+
+.itinerary-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 210, 255, 0.2);
+}
+
+/* Fix for overlapping text */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+    margin-bottom: 0.5em;
+}
+
+p {
+    margin-bottom: 1.2em;
+}
+
+/* --- Global Navbar (Midnight Voyage) --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: hsla(210, 30%, 8%, 0.65);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+    height: 64px;
+}
+
+.nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.nav-logo-icon {
+    font-size: 22px;
+}
+
+.nav-logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, hsl(175, 80%, 60%), hsl(224, 100%, 70%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-center { flex: 1; }
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(175, 70%, 45%), hsl(224, 90%, 60%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid hsla(175, 70%, 60%, 0.4);
+}
+
+/* --- Dropdown --- */
+.user-dropdown-container {
+    position: relative;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 200px;
+    background: hsla(210, 30%, 12%, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 10px 40px hsla(0, 0%, 0%, 0.4);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-dropdown.hidden {
+    display: none;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background: hsla(210, 30%, 20%, 0.8);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: hsla(0, 0%, 100%, 0.15);
+    margin: 6px 4px;
+}
+
+.logout-item {
+    color: #fca5a5;
+}
+
+/* --- Language Toggle --- */
+.lang-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Ajuste contenedor para navbar fija */
+.container {
+    padding-top: 100px;
+}
