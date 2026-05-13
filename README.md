@@ -55,7 +55,7 @@ print("Conectado")
 (Powershell)
 cd backend/
 venv\Scripts\Activate.ps1
-pip install requirements.txt
+pip install -r requirements.txt
 // CON EL XAMPP ENCENDIDO
 python run.py
 
