@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=D:\Usuarios\alex1998\Desktop\ProyectoTFG\TFG\backend\venv"
+set "VIRTUAL_ENV=D:\Usuarios\ddominguezh04\Desktop\TFG\backend\venv"
 
 if not defined PROMPT set PROMPT=$P$G
 
