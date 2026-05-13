@@ -78,7 +78,8 @@ const translations = {
         password: "Contraseña",
         savedDestinations: "Tus destinos guardados",
         tripSummary: "Este viaje incluye alojamiento premium, guías locales y actividades exclusivas.",
-        paymentInfo: "Procede con el pago seguro desde tu dispositivo móvil"
+        paymentInfo: "Procede con el pago seguro desde tu dispositivo móvil",
+        userId: "ID Usuario"
     },
     en: {
         myReservations: "My reservations",
@@ -157,7 +158,8 @@ const translations = {
         password: "Password",
         savedDestinations: "Your saved destinations",
         tripSummary: "This trip includes premium accommodation, local guides and exclusive activities.",
-        paymentInfo: "Proceed with secure payment from your mobile device"
+        paymentInfo: "Proceed with secure payment from your mobile device",
+        userId: "User ID"
     }
 };
 

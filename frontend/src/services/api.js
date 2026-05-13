@@ -48,9 +48,9 @@ const apiClient = {
     getById: (id) => apiClient.request(`/planes/${id}`),
   },
   users: {
-    getProfile: () => apiClient.request('/usuarios/perfil'),
+    getProfile: () => apiClient.request('/usuarios/me'),
     updateProfile: (data) =>
-      apiClient.request('/usuarios/perfil', { method: 'PUT', body: JSON.stringify(data) }),
+      apiClient.request('/usuarios/me', { method: 'PUT', body: JSON.stringify(data) }),
   },
   reservations: {
     getAll: () => apiClient.request('/reservas'),

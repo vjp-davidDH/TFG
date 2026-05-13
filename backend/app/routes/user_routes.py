@@ -26,6 +26,8 @@ def update_me():
         return jsonify(u.to_dict()), 200
     except LookupError as e:
         return jsonify({"error": str(e)}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 409
 
 
 @user_bp.route("/me", methods=["DELETE"])

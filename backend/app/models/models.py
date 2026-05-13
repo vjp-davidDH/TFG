@@ -19,6 +19,9 @@ class Usuario(db.Model):
     telefono        = db.Column(db.String(20), nullable=True)
     fecha_registro  = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __init__(self, **kwargs):
+        super(Usuario, self).__init__(**kwargs)
+
     # Relaciones
     reservas                  = db.relationship("Reserva",                back_populates="usuario",      lazy="dynamic")
     favoritos                 = db.relationship("Favorito",               back_populates="usuario",      lazy="dynamic")
@@ -49,6 +52,9 @@ class Destino(db.Model):
     pais        = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.Text, nullable=True)
 
+    def __init__(self, **kwargs):
+        super(Destino, self).__init__(**kwargs)
+
     # Relaciones
     alojamientos = db.relationship("Alojamiento", back_populates="destino", lazy="dynamic")
     planes       = db.relationship("Plan",        back_populates="destino", lazy="dynamic")
@@ -75,6 +81,9 @@ class Alojamiento(db.Model):
     estrellas      = db.Column(db.Integer,      nullable=True)
     precio_noche   = db.Column(db.Numeric(10, 2), nullable=False)
     id_destino     = db.Column(db.Integer, db.ForeignKey("destinos.id_destino", ondelete="CASCADE"), nullable=False)
+
+    def __init__(self, **kwargs):
+        super(Alojamiento, self).__init__(**kwargs)
 
     # Relaciones
     destino       = db.relationship("Destino",              back_populates="alojamientos")
@@ -107,6 +116,9 @@ class Transporte(db.Model):
     fecha_salida   = db.Column(db.DateTime, nullable=True)
     fecha_llegada  = db.Column(db.DateTime, nullable=True)
     precio         = db.Column(db.Numeric(10, 2), nullable=False)
+
+    def __init__(self, **kwargs):
+        super(Transporte, self).__init__(**kwargs)
 
     # Relaciones
     planes = db.relationship("Plan", secondary="plan_transporte", back_populates="transportes")
@@ -151,6 +163,9 @@ class Plan(db.Model):
     precio_total  = db.Column(db.Numeric(10, 2), nullable=False)
     id_destino    = db.Column(db.Integer, db.ForeignKey("destinos.id_destino", ondelete="CASCADE"), nullable=False)
 
+    def __init__(self, **kwargs):
+        super(Plan, self).__init__(**kwargs)
+
     # Relaciones
     destino       = db.relationship("Destino",     back_populates="planes")
     reservas      = db.relationship("Reserva",     back_populates="plan",   lazy="dynamic")
@@ -187,6 +202,9 @@ class Reserva(db.Model):
     estado        = db.Column(db.Enum("pendiente", "confirmada", "cancelada"), default="pendiente")
     total_pagado  = db.Column(db.Numeric(10, 2), default=0.00)
 
+    def __init__(self, **kwargs):
+        super(Reserva, self).__init__(**kwargs)
+
     # Relaciones
     usuario = db.relationship("Usuario", back_populates="reservas")
     plan    = db.relationship("Plan",    back_populates="reservas")
@@ -218,6 +236,9 @@ class Pago(db.Model):
     estado       = db.Column(db.Enum("pendiente", "pagado", "fallido"), default="pendiente")
     fecha_pago   = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __init__(self, **kwargs):
+        super(Pago, self).__init__(**kwargs)
+
     # Relaciones
     reserva = db.relationship("Reserva", back_populates="pagos")
 
@@ -240,6 +261,9 @@ class Favorito(db.Model):
 
     id_usuario = db.Column(db.Integer, db.ForeignKey("usuarios.id_usuario", ondelete="CASCADE"), primary_key=True)
     id_plan    = db.Column(db.Integer, db.ForeignKey("planes.id_plan",      ondelete="CASCADE"), primary_key=True)
+
+    def __init__(self, **kwargs):
+        super(Favorito, self).__init__(**kwargs)
 
     # Relaciones
     usuario = db.relationship("Usuario", back_populates="favoritos")
@@ -265,6 +289,9 @@ class ValoracionAlojamiento(db.Model):
     puntuacion     = db.Column(db.Integer, nullable=True)
     comentario     = db.Column(db.Text,    nullable=True)
     fecha          = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, **kwargs):
+        super(ValoracionAlojamiento, self).__init__(**kwargs)
 
     __table_args__ = (db.UniqueConstraint("id_usuario", "id_alojamiento"),)
 
@@ -295,6 +322,9 @@ class ValoracionPlan(db.Model):
     puntuacion    = db.Column(db.Integer, nullable=True)
     comentario    = db.Column(db.Text,    nullable=True)
     fecha         = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, **kwargs):
+        super(ValoracionPlan, self).__init__(**kwargs)
 
     __table_args__ = (db.UniqueConstraint("id_usuario", "id_plan"),)
 
