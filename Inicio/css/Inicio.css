@@ -986,7 +986,7 @@ button#login-btn:hover .btn-arrow {
 
 .modal-box {
     width: 100%;
-    max-width: 460px;
+    max-width: 600px;
     background: var(--bg-card);
     border: 1px solid var(--border-card);
     border-radius: 24px;
@@ -1049,13 +1049,78 @@ button#login-btn:hover .btn-arrow {
     margin-top: 4px;
 }
 
-/* Date inputs en dark mode */
-.modal-body input[type="date"] {
-    color-scheme: dark;
+/* =====================================================
+   8. ESTILOS PERSONALIZADOS FLATPICKR
+   ===================================================== */
+
+.flatpickr-calendar {
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 50px hsla(200, 50%, 2%, 0.5) !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+
+.flatpickr-day.selected, 
+.flatpickr-day.startRange, 
+.flatpickr-day.endRange, 
+.flatpickr-day.selected.inRange, 
+.flatpickr-day.startRange.inRange, 
+.flatpickr-day.endRange.inRange, 
+.flatpickr-day.selected:focus, 
+.flatpickr-day.startRange:focus, 
+.flatpickr-day.endRange:focus, 
+.flatpickr-day.selected:hover, 
+.flatpickr-day.startRange:hover, 
+.flatpickr-day.endRange:hover, 
+.flatpickr-day.selected.prevMonthDay, 
+.flatpickr-day.startRange.prevMonthDay, 
+.flatpickr-day.endRange.prevMonthDay, 
+.flatpickr-day.selected.nextMonthDay, 
+.flatpickr-day.startRange.nextMonthDay, 
+.flatpickr-day.endRange.nextMonthDay {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 15px hsla(224, 100%, 62%, 0.4) !important;
+}
+
+.flatpickr-day.inRange {
+    background: hsla(224, 100%, 62%, 0.15) !important;
+    box-shadow: -5px 0 0 hsla(224, 100%, 62%, 0.15), 5px 0 0 hsla(224, 100%, 62%, 0.15) !important;
+}
+
+.flatpickr-months .flatpickr-month {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-weight: 700 !important;
+}
+
+.flatpickr-weekday {
+    color: var(--text-muted) !important;
+    font-weight: 600 !important;
+}
+
+.flatpickr-day {
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+}
+
+.flatpickr-day:hover {
+    background: hsla(175, 70%, 50%, 0.2) !important;
+}
+
+.flatpickr-day.flatpickr-disabled, 
+.flatpickr-day.flatpickr-disabled:hover {
+    color: hsla(215, 20%, 60%, 0.3) !important;
 }
 
 /* =====================================================
-   8. TOAST
+   9. TOAST
    ===================================================== */
 
 .toast {
@@ -1227,101 +1292,160 @@ button#login-btn:hover .btn-arrow {
     }
 }
 
-/* --- Dropdown de usuario --- */
-.user-dropdown-container {
-    position: relative;
+/* =====================================================
+   12. PÁGINA DE RESERVA
+   ===================================================== */
+
+.reserva-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 32px;
+    margin-top: 24px;
 }
 
-.user-dropdown {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    width: 200px;
-    background: hsla(210, 30%, 12%, 0.95);
-    backdrop-filter: blur(20px);
+@media (max-width: 900px) {
+    .reserva-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.booking-form {
+    background: var(--bg-card);
     border: 1px solid var(--border-card);
-    border-radius: 16px;
-    padding: 8px;
-    box-shadow: 0 10px 40px hsla(0, 0%, 0%, 0.4);
-    z-index: 200;
-    animation: fadeIn 0.2s ease-out;
+    border-radius: var(--radius-card);
+    padding: 40px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.summary-card {
+    background: hsla(224, 100%, 62%, 0.05);
+    border: 1px solid hsla(224, 100%, 62%, 0.2);
+    border-radius: var(--radius-card);
+    padding: 30px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    backdrop-filter: blur(10px);
+}
+
+.form-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.summary-total {
+    border-top: 1px solid var(--border-card);
+    padding-top: 16px;
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+}
+
+/* --- SECCIÓN DE PAGOS --- */
+.payment-section {
+    margin-top: 32px;
     display: flex;
     flex-direction: column;
+    gap: 16px;
 }
 
-.user-dropdown.hidden {
-    display: none;
-}
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 10px;
-    transition: background var(--transition);
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
-}
-
-.dropdown-item:hover {
-    background: hsla(210, 30%, 20%, 0.8);
-}
-
-.dropdown-icon {
-    font-size: 16px;
-}
-
-.dropdown-divider {
-    height: 1px;
-    background: hsla(0, 0%, 100%, 0.15); /* Línea blanca sugerida por el usuario */
-    margin: 6px 4px;
-}
-
-.logout-item {
-    color: hsl(0, 70%, 72%);
-}
-
-.logout-item:hover {
-    background: hsla(0, 60%, 50%, 0.15);
-}
-
-/* --- Language Toggle --- */
-.lang-toggle {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: var(--bg-card);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-card);
-    border-radius: 30px;
-    color: var(--text-primary);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+.payment-label {
     font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.payment-method {
+    background: hsla(220, 25%, 20%, 0.4);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: all var(--transition);
+    height: 48px;
+}
+
+.payment-method:hover {
+    background: hsla(220, 25%, 25%, 0.6);
+    border-color: var(--primary-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px hsla(224, 100%, 62%, 0.2);
+}
+
+.payment-method svg {
+    height: 24px;
+    width: auto;
+    max-width: 80%;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.payment-method.paypal:hover { border-color: #0070ba; box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3); }
+.payment-method.mastercard:hover { border-color: #eb001b; box-shadow: 0 4px 15px rgba(235, 0, 27, 0.3); }
+.payment-method.visa:hover { border-color: #1a1f71; box-shadow: 0 4px 15px rgba(26, 31, 113, 0.3); }
+.payment-method.apple:hover { border-color: #ffffff; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2); }
+
+.btn-checkout {
+    margin-top: 8px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 25px hsla(224, 100%, 62%, 0.3);
     transition: all var(--transition);
 }
 
-.lang-toggle:hover {
-    transform: scale(1.05);
-    border-color: var(--primary-glow);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+.btn-checkout:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px hsla(224, 100%, 62%, 0.5);
+    filter: brightness(1.1);
 }
 
-.lang-flag {
-    font-size: 16px;
-}
+.btn-checkout:active {
+    transform: translateY(-1px);
+}

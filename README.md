@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
 # TripCollab - Base de Datos
 
 ## Tecnologías
@@ -51,16 +51,15 @@ conexion = mysql.connector.connect(
 )
 
 print("Conectado")
-=======
+=========
 (Powershell)
 cd backend/
-python -m venv venv
-.\venv\Scripts\Activate
-pip install -r requirements.txt
+venv\Scripts\Activate.ps1
+pip install requirements.txt
 // CON EL XAMPP ENCENDIDO
 python run.py
 
 cd frontend/
-npm install
+npm run install
 npm run dev
->>>>>>> origin/raul
+>>>>>>>>> Temporary merge branch 2
