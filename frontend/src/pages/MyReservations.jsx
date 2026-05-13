@@ -6,7 +6,7 @@ import TripCard from '../components/TripCard';
 
 const MyReservations = () => {
     const { t } = useLanguage();
-    const { reservations, bookedTrips } = useTrips();
+    const { reservations, bookedTrips, removeReservation } = useTrips();
     const navigate = useNavigate();
 
     const handleConfirm = (trip) => {
@@ -36,6 +36,7 @@ const MyReservations = () => {
                                 showReserve={false} 
                                 showConfirm={true} 
                                 onConfirm={handleConfirm}
+                                onRemove={removeReservation}
                             />
                         ))}
                     </div>

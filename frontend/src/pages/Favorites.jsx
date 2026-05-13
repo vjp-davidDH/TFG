@@ -4,7 +4,7 @@ import TripCard from '../components/TripCard';
 
 const Favorites = () => {
     const { t } = useLanguage();
-    
+
     // Mock favorites
     const favorites = [
         { id: 201, titulo: 'Crucero por el Mediterráneo', destino: 'Roma, Italia', fechaInicio: '2026-07-15', fechaFin: '2026-07-30', rol: 'colaborador' }
