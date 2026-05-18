@@ -1,7 +1,3 @@
-# TFG
-Proyecto de final de curso sobre una app de planificación de viajes.
-
-## Cómo ejecutar el proyecto
 (Powershell)
 cd backend/
 pip install requirements.txt

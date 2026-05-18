@@ -22,11 +22,18 @@ class UsuarioService:
     @staticmethod
     def update(uid: int, data: dict) -> Usuario:
         u = UsuarioService.get_by_id(uid)
+        if "email" in data and data["email"] != u.email:
+            if Usuario.query.filter_by(email=data["email"]).first():
+                raise ValueError("Ese email ya está en uso.")
+            u.email = data["email"]
+        
         for field in ("nombre", "telefono"):
             if field in data:
                 setattr(u, field, data[field])
+        
         if "password" in data:
             u.password_hash = generate_password_hash(data["password"])
+        
         db.session.commit()
         return u
 
@@ -87,6 +94,11 @@ class PlanService:
 
     @staticmethod
     def create(data: dict) -> Plan:
+        # Validar campos requeridos
+        for field in ("nombre", "precio_total", "id_destino"):
+            if field not in data:
+                raise ValueError(f"El campo {field} es obligatorio.")
+
         p = Plan(
             nombre=data["nombre"],
             descripcion=data.get("descripcion"),
@@ -100,8 +112,12 @@ class PlanService:
     @staticmethod
     def update(pid: int, data: dict) -> Plan:
         p = PlanService.get_by_id(pid)
-        for k, v in data.items():
-            setattr(p, k, v)
+        
+        # Campos básicos
+        for field in ("nombre", "descripcion", "precio_total", "id_destino"):
+            if field in data:
+                setattr(p, field, data[field])
+        
         db.session.commit()
         return p
 
