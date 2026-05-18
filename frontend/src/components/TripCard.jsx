@@ -4,6 +4,46 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTrips } from '../context/TripContext';
 import { MapPinIcon, CalendarIcon, CheckIcon } from './Icons';
 
+// Import images for cards
+import cuscoImg from '../assets/img/Cusco-2.jpg';
+import patagoniaImg from '../assets/img/Patagonia Salvaje.jfif';
+import samarcandaImg from '../assets/img/Samarcanda.jpg';
+import fiordosImg from '../assets/img/fiordos-noruegos.webp';
+import keniaImg from '../assets/img/itinerario-viaje-kenia-2.webp';
+import miamiImg from '../assets/img/miami.jfif';
+import murallaImg from '../assets/img/muralla china.jpg';
+import newyorkImg from '../assets/img/new york.jfif';
+import piramidesImg from '../assets/img/piramides.jfif';
+import reikiavikImg from '../assets/img/reikiavik.webp';
+import tokyoImg from '../assets/img/tokyo.jpg';
+import eiffelImg from '../assets/img/torre-eiffel-altura.avif';
+
+const getTripImage = (viaje) => {
+    if (!viaje) return eiffelImg;
+    const dest = (viaje.destino || viaje.destination || '').toLowerCase();
+    const tit = (viaje.titulo || viaje.title || '').toLowerCase();
+
+    if (dest.includes('cusco') || tit.includes('andes') || tit.includes('cusco')) return cuscoImg;
+    if (dest.includes('chile') || dest.includes('patagonia') || tit.includes('patagonia')) return patagoniaImg;
+    if (dest.includes('uzbek') || dest.includes('samar') || tit.includes('seda') || tit.includes('samar')) return samarcandaImg;
+    if (dest.includes('noruega') || dest.includes('oslo') || tit.includes('fiordo') || tit.includes('norue')) return fiordosImg;
+    if (dest.includes('kenya') || dest.includes('nairobi') || tit.includes('safari') || tit.includes('kenya')) return keniaImg;
+    if (dest.includes('miami') || tit.includes('caribe') || tit.includes('miami')) return miamiImg;
+    if (dest.includes('china') || dest.includes('beijing') || tit.includes('muralla')) return murallaImg;
+    if (dest.includes('york') || tit.includes('broadway') || tit.includes('york')) return newyorkImg;
+    if (dest.includes('egipto') || dest.includes('cairo') || tit.includes('pirámide') || tit.includes('piramide')) return piramidesImg;
+    if (dest.includes('islandia') || dest.includes('reyk') || tit.includes('aurora') || tit.includes('reikiavik')) return reikiavikImg;
+    if (dest.includes('tokyo') || dest.includes('japon') || dest.includes('japón') || tit.includes('tokyo') || tit.includes('tokio')) return tokyoImg;
+    if (dest.includes('paris') || dest.includes('parís') || dest.includes('francia') || tit.includes('euro') || tit.includes('eiffel')) return eiffelImg;
+
+    // Fallback based on id
+    const defaultImages = [
+        eiffelImg, cuscoImg, tokyoImg, keniaImg, reikiavikImg, miamiImg,
+        samarcandaImg, patagoniaImg, newyorkImg, murallaImg, fiordosImg, piramidesImg
+    ];
+    return defaultImages[(viaje.id || 0) % defaultImages.length];
+};
+
 const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, onRemove }) => {
     const { t } = useLanguage();
     const { addReservation } = useTrips();
@@ -39,8 +79,17 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
 
     return (
         <article className="group card-3d stagger-in">
-            <div className="card-3d-content glass flex flex-col gap-4 p-6 rounded-[28px] h-full relative">
-
+            <div className="card-3d-content glass flex flex-col gap-4 p-6 rounded-[28px] h-full relative overflow-hidden">
+                
+                {/* Image frame - beautifully adjusted to fit the space */}
+                <div className="relative overflow-hidden w-full aspect-video rounded-2xl border border-border-card/25 shadow-inner transition-all duration-700">
+                    <img 
+                        src={getTripImage(viaje)} 
+                        alt={displayTitulo} 
+                        className="w-full h-full object-cover group-hover:scale-108 transition-all duration-700 ease-[cubic-bezier(0.15,0.83,0.66,1)]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60"></div>
+                </div>
 
                 <div className="flex items-start justify-between gap-2.5 relative z-10 transition-all duration-700">
                     <h2 className="text-lg font-bold text-text-primary leading-tight flex-1">
@@ -118,13 +167,23 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                     <div className="glass w-full max-w-lg p-8 rounded-[32px] animate-in zoom-in-95 duration-300 overflow-hidden relative">
 
                         <button
-                            className="absolute top-6 right-6 text-xl hover:opacity-50"
+                            className="absolute top-6 right-6 text-sm font-bold hover:scale-105 z-20 w-8 h-8 flex items-center justify-center bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-white transition-all"
                             onClick={() => setShowDetails(false)}
                         >
                             ✕
                         </button>
 
-                        <header className="mb-8">
+                        {/* Large Image Header for details modal */}
+                        <div className="relative overflow-hidden w-full h-48 rounded-2xl border border-border-card/30 mb-6">
+                            <img 
+                                src={getTripImage(viaje)} 
+                                alt={displayTitulo} 
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        </div>
+
+                        <header className="mb-6">
                             <span className="text-[10px] uppercase tracking-widest text-teal-glow font-black">
                                 {t(currentRol)}
                             </span>
