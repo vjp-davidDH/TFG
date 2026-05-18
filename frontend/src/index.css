@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: hsl(224, 100%, 62%);
+  --color-primary-glow: hsl(224, 100%, 70%);
+  --color-accent: hsl(280, 90%, 65%);
+  --color-teal: hsl(175, 70%, 50%);
+  --color-teal-glow: hsl(175, 70%, 65%);
+  
+  --color-bg-deep: hsl(222, 30%, 8%);
+  --color-bg-card: hsl(222, 25%, 12%);
+  --color-border-card: hsla(175, 70%, 50%, 0.3);
+  --color-text-primary: hsl(210, 30%, 96%);
+  --color-text-muted: hsl(215, 20%, 60%);
+  --color-input-bg: hsla(222, 25%, 15%, 0.8);
+  --color-input-border: hsla(175, 70%, 50%, 0.2);
+  
+  --radius-card: 24px;
+  --radius-input: 14px;
+  
+  --shadow-card: 0 25px 60px hsla(220, 50%, 5%, 0.5);
+}
+
+/* Premium Vibrant Light mode with Indigo & Royal Blue Gradients */
+.light {
+  --color-bg-deep: hsl(210, 50%, 98%);
+  --color-bg-card: hsl(0, 0%, 100%);
+  --color-teal: hsl(243, 75%, 59%); 
+  --color-teal-glow: hsl(243, 70%, 65%);
+  --color-primary: hsl(221, 83%, 53%); 
+  --color-primary-glow: hsl(221, 80%, 60%);
+  --color-border-card: hsla(243, 75%, 59%, 0.2);
+  --color-input-border: hsla(243, 75%, 59%, 0.15);
+  --color-text-primary: hsl(222, 47%, 12%);
+  --color-text-muted: hsl(215, 15%, 45%);
+  --color-input-bg: hsl(210, 30%, 99%);
+  --shadow-card: 0 15px 35px hsla(222, 47%, 15%, 0.08);
+}
+
+@layer base {
+  body {
+    @apply bg-bg-deep text-text-primary transition-colors duration-300;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--color-bg-deep) !important;
+  }
+
+  input, select, textarea {
+    @apply text-text-primary border-input-border;
+  }
+}
+
+.glass {
+  @apply bg-bg-card border border-border-card transition-all duration-700;
+}
+
+.light .glass {
+  @apply bg-white border-border-card shadow-sm;
+}
+
+/* Luxury 3D Card Physics */
+.card-3d {
+  @apply relative;
+}
+
+.card-3d-content {
+  @apply relative transition-all duration-700 ease-[cubic-bezier(0.15,0.83,0.66,1)];
+}
+
+.group:hover .card-3d-content {
+  transform: translateY(-15px) scale(1.02);
+  @apply shadow-2xl shadow-teal/30 border-teal/60;
+}
+
+.light .group:hover .card-3d-content {
+  @apply shadow-2xl shadow-primary/20 border-primary/50;
+}
+
+/* Shimmer Reflection Effect */
+.shimmer {
+  @apply absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none;
+}
+
+.shimmer::after {
+  content: "";
+  @apply absolute -inset-full bg-linear-to-tr from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-700;
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+}
+
+.group:hover .shimmer::after {
+  @apply opacity-100;
+  animation: shimmer-move 1.5s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+@keyframes shimmer-move {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.orb {
+  @apply absolute rounded-full blur-[80px] opacity-35 pointer-events-none;
+  animation: float 10s ease-in-out infinite;
+}
+
+.light .orb {
+  @apply opacity-20 blur-[120px] mix-blend-multiply;
+  background: radial-gradient(circle, var(--color-primary-glow), transparent);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+/* Plane animation */
+.animate-plane-slow {
+  animation: plane-move 3s ease-in-out infinite;
+}
+
+@keyframes plane-move {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5px, -5px) rotate(5deg); }
+  75% { transform: translate(-5px, 5px) rotate(-5deg); }
+}
+
+/* Staggered Entrance Animation */
+.stagger-in {
+  animation: slide-up-fade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes slide-up-fade {
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}

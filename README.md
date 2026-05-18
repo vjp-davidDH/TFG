@@ -1,2 +1,9 @@
-# TFG
-Proyecto de final de curso sobre una app de planificación de viajes.
+(Powershell)
+cd backend/
+pip install requirements.txt
+// CON EL XAMPP ENCENDIDO
+python run.py
+
+cd frontend/
+npm install
+npm run dev
