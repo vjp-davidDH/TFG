@@ -25,8 +25,6 @@ const translations = {
         tripsCompleted: "Viajes completados",
         confirmReserva: "Confirmar Reserva",
         memberSince: "Miembro desde",
-        show: "Mostrar",
-        hide: "Ocultar",
         noTrips: "Aún no tienes viajes",
         noTripsDesc: "Crea tu primer viaje y empieza a planificar tu próxima aventura.",
         all: "Todos",
@@ -80,8 +78,7 @@ const translations = {
         password: "Contraseña",
         savedDestinations: "Tus destinos guardados",
         tripSummary: "Este viaje incluye alojamiento premium, guías locales y actividades exclusivas.",
-        paymentInfo: "Procede con el pago seguro desde tu dispositivo móvil",
-        userId: "ID Usuario"
+        paymentInfo: "Procede con el pago seguro desde tu dispositivo móvil"
     },
     en: {
         myReservations: "My reservations",
@@ -107,8 +104,6 @@ const translations = {
         tripsCompleted: "Completed Trips",
         confirmReserva: "Confirm Reservation",
         memberSince: "Member since",
-        show: "Show",
-        hide: "Hide",
         noTrips: "No trips yet",
         noTripsDesc: "Create your first trip and start planning your next adventure.",
         all: "All",
@@ -162,8 +157,7 @@ const translations = {
         password: "Password",
         savedDestinations: "Your saved destinations",
         tripSummary: "This trip includes premium accommodation, local guides and exclusive activities.",
-        paymentInfo: "Proceed with secure payment from your mobile device",
-        userId: "User ID"
+        paymentInfo: "Proceed with secure payment from your mobile device"
     }
 };
 

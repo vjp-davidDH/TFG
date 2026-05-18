@@ -60,20 +60,20 @@ const Reservation = () => {
                     <p className="text-text-muted mt-2 font-bold uppercase text-[10px] tracking-widest">{t('reservaDesc')}</p>
                 </header>
 
-                <div className="glass p-10 rounded-[32px] space-y-8">
+                <div className="group card-3d">
+                    <div className="card-3d-content glass p-10 rounded-[32px] space-y-8">
                     <div className="space-y-4">
                         <label className="text-xs font-black uppercase tracking-widest text-text-muted ml-2">{t('payWith')}</label>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             {['card', 'paypal', 'apple', 'google'].map(method => (
-                                <button 
+                                <button
                                     key={method}
                                     type="button"
                                     onClick={() => setPaymentMethod(method)}
-                                    className={`py-4 rounded-2xl border-2 transition-all font-black text-[10px] uppercase tracking-widest ${
-                                        paymentMethod === method 
-                                        ? 'border-teal bg-teal/10 text-teal-glow' 
-                                        : 'border-white/5 bg-white/5 text-text-muted hover:bg-white/10'
-                                    }`}
+                                    className={`py-3 rounded-2xl border-2 transition-all font-bold text-[10px] uppercase tracking-widest ${paymentMethod === method
+                                            ? 'border-teal/50 bg-white/5 text-teal shadow-lg shadow-teal/5'
+                                            : 'border-white/5 bg-white/5 text-text-muted hover:bg-white/10'
+                                        }`}
                                 >
                                     {method}
                                 </button>
@@ -86,30 +86,30 @@ const Reservation = () => {
                             <div className="space-y-4 animate-in slide-in-from-left-4">
                                 <div className="relative">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted"><CardIcon /></span>
-                                    <input 
+                                    <input
                                         type="text" placeholder={t('cardNumber')}
                                         className={`w-full pl-12 pr-4 py-4 bg-white/5 border rounded-2xl text-sm focus:outline-hidden transition-all text-text-primary ${errors.cardNumber ? 'border-red-500' : 'border-white/10 focus:border-teal/50'}`}
                                         value={formData.cardNumber}
-                                        onChange={(e) => setFormData({...formData, cardNumber: e.target.value.replace(/\D/g, '').slice(0,16)})}
+                                        onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value.replace(/\D/g, '').slice(0, 16) })}
                                     />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted"><CalendarIcon /></span>
-                                        <input 
+                                        <input
                                             type="text" placeholder="MM/YY"
                                             className={`w-full pl-12 pr-4 py-4 bg-white/5 border rounded-2xl text-sm focus:outline-hidden transition-all text-text-primary ${errors.expiry ? 'border-red-500' : 'border-white/10 focus:border-teal/50'}`}
                                             value={formData.expiry}
-                                            onChange={(e) => setFormData({...formData, expiry: e.target.value.slice(0,5)})}
+                                            onChange={(e) => setFormData({ ...formData, expiry: e.target.value.slice(0, 5) })}
                                         />
                                     </div>
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted"><LockIcon /></span>
-                                        <input 
+                                        <input
                                             type="password" placeholder="CVV"
                                             className={`w-full pl-12 pr-4 py-4 bg-white/5 border rounded-2xl text-sm focus:outline-hidden transition-all text-text-primary ${errors.cvv ? 'border-red-500' : 'border-white/10 focus:border-teal/50'}`}
                                             value={formData.cvv}
-                                            onChange={(e) => setFormData({...formData, cvv: e.target.value.replace(/\D/g, '').slice(0,3)})}
+                                            onChange={(e) => setFormData({ ...formData, cvv: e.target.value.replace(/\D/g, '').slice(0, 3) })}
                                         />
                                     </div>
                                 </div>
@@ -119,11 +119,11 @@ const Reservation = () => {
                         {paymentMethod === 'paypal' && (
                             <div className="relative animate-in slide-in-from-left-4">
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted"><MailIcon /></span>
-                                <input 
+                                <input
                                     type="email" placeholder="PayPal Email"
                                     className={`w-full pl-12 pr-4 py-4 bg-white/5 border rounded-2xl text-sm focus:outline-hidden transition-all text-text-primary ${errors.paypalEmail ? 'border-red-500' : 'border-white/10 focus:border-teal/50'}`}
                                     value={formData.paypalEmail}
-                                    onChange={(e) => setFormData({...formData, paypalEmail: e.target.value})}
+                                    onChange={(e) => setFormData({ ...formData, paypalEmail: e.target.value })}
                                 />
                             </div>
                         )}
@@ -134,15 +134,23 @@ const Reservation = () => {
                             </div>
                         )}
 
-                        <button type="submit" className="w-full py-5 bg-linear-to-r from-teal to-primary rounded-[20px] font-black text-white shadow-2xl shadow-teal/30 hover:scale-[1.01] transition-all uppercase tracking-widest mt-4">
+                        <button type="submit" className="w-full py-4 bg-white/5 border border-teal/50 rounded-2xl font-bold text-teal text-xs shadow-2xl shadow-teal/10 hover:bg-teal/5 hover:scale-[1.01] transition-all uppercase tracking-widest mt-4">
                             {t('payNow')} →
                         </button>
                     </form>
+                    </div>
                 </div>
             </section>
 
-            <aside className="space-y-6">
-                <div className="glass p-8 rounded-[32px] border-teal/20 bg-teal/5 sticky top-24">
+            <aside className="space-y-6 group card-3d">
+                <div className="card-3d-content glass p-8 rounded-[32px] border-teal/20 bg-teal/5 sticky top-24 relative">
+                    <button 
+                        onClick={() => navigate('/reservas')}
+                        className="absolute top-6 right-6 z-10 w-8 h-8 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-lg backdrop-blur-md"
+                        title={t('cancel')}
+                    >
+                        ✕
+                    </button>
                     <h2 className="text-xl font-black mb-6 flex items-center gap-2 uppercase tracking-tighter text-text-primary">
                         <TicketIcon /> {t('summary')}
                     </h2>
