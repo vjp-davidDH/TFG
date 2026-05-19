@@ -28,7 +28,7 @@ const MyReservations = () => {
                 </header>
 
                 {reservations.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {reservations.map(r => (
                             <TripCard 
                                 key={r.id} 
@@ -52,19 +52,14 @@ const MyReservations = () => {
             {bookedTrips.length > 0 && (
                 <section>
                     <header className="mb-10">
-                        <h2 className="text-3xl font-black bg-linear-to-r from-accent to-primary bg-clip-text text-transparent uppercase">
+                        <h2 className="text-3xl font-black bg-linear-to-r from-teal-glow to-primary bg-clip-text text-transparent uppercase">
                             {t('bookedTrips')}
                         </h2>
                         <p className="text-text-muted mt-2 font-bold uppercase text-[10px] tracking-widest">{t('completedTrips')}</p>
                     </header>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {bookedTrips.map(b => (
-                            <div key={b.id} className="relative opacity-80 grayscale-[0.3]">
-                                <TripCard viaje={b} showReserve={false} />
-                                <div className="absolute top-4 left-4 bg-teal text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
-                                    ✓ {t('paymentSuccess')}
-                                </div>
-                            </div>
+                            <TripCard key={b.id} viaje={b} showReserve={false} isBooked={true} />
                         ))}
                     </div>
                 </section>

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useTrips } from '../context/TripContext';
 import { CardIcon, CalendarIcon, LockIcon, MailIcon, TicketIcon } from '../components/Icons';
+import TripCard from '../components/TripCard';
 
 const Reservation = () => {
     const { t } = useLanguage();
@@ -142,33 +143,18 @@ const Reservation = () => {
                 </div>
             </section>
 
-            <aside className="space-y-6 group card-3d">
-                <div className="card-3d-content glass p-8 rounded-[32px] border-teal/20 bg-teal/5 sticky top-24 relative">
-                    <button 
-                        onClick={() => navigate('/reservas')}
-                        className="absolute top-6 right-6 z-10 w-8 h-8 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-lg backdrop-blur-md"
-                        title={t('cancel')}
-                    >
-                        ✕
-                    </button>
-                    <h2 className="text-xl font-black mb-6 flex items-center gap-2 uppercase tracking-tighter text-text-primary">
+            <aside className="space-y-6 sticky top-24 max-w-md lg:max-w-none mx-auto w-full">
+                <header className="flex items-center justify-between pl-2">
+                    <h2 className="text-2xl font-black bg-linear-to-r from-teal-glow to-primary-glow bg-clip-text text-transparent uppercase tracking-tight flex items-center gap-2">
                         <TicketIcon /> {t('summary')}
                     </h2>
-                    <div className="space-y-5 text-sm">
-                        <div className="flex justify-between border-b border-white/5 pb-4">
-                            <span className="text-text-muted font-bold uppercase text-[10px] tracking-widest">{t('tripTitle')}</span>
-                            <span className="font-bold text-text-primary">{trip.titulo}</span>
-                        </div>
-                        <div className="flex justify-between border-b border-white/5 pb-4">
-                            <span className="text-text-muted font-bold uppercase text-[10px] tracking-widest">{t('destination')}</span>
-                            <span className="font-bold text-text-primary">{trip.destino}</span>
-                        </div>
-                        <div className="flex justify-between pt-2">
-                            <span className="text-xs font-black uppercase text-text-muted">{t('total')}</span>
-                            <span className="text-3xl font-black text-teal-glow">${trip.precio?.toLocaleString()}</span>
-                        </div>
-                    </div>
-                </div>
+                </header>
+                <TripCard 
+                    viaje={trip} 
+                    showReserve={false} 
+                    showConfirm={false} 
+                    onRemove={() => navigate('/reservas')} 
+                />
             </aside>
         </main>
     );
