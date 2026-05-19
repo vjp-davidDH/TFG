@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useTrips } from '../context/TripContext';
-import { MapPinIcon, CalendarIcon, CheckIcon } from './Icons';
+import { MapPinIcon, CalendarIcon, StarIcon } from './Icons';
 
 const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, onRemove }) => {
     const { t } = useLanguage();
-    const { addReservation } = useTrips();
+    const { addReservation, addFavorite } = useTrips();
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
 
-    const { titulo, title, destino, destination, fechaInicio, startDate, fechaFin, endDate, rol, precio } = viaje;
+    // Corregido: mostrar destino como string si es objeto
+    let displayDestino = viaje.destino || viaje.destination || 'Destino desconocido';
+    if (typeof displayDestino === 'object' && displayDestino) {
+        displayDestino = `${displayDestino.ciudad}, ${displayDestino.pais}`;
+    }
 
+    const { titulo, title, fechaInicio, startDate, fechaFin, endDate, rol, precio } = viaje;
     const displayTitulo = titulo || title || 'Sin título';
-    const displayDestino = destino || destination || 'Destino desconocido';
 
     const formatFecha = (isoStr) => {
         if (!isoStr) return '—';
@@ -48,21 +52,40 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                     </h2>
 
                     <div className="flex flex-col items-end gap-2 shrink-0">
-                        {onRemove && (
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onRemove(viaje.id);
-                                }}
-                                className="w-8 h-8 bg-red-500/10 border border-red-500/20 text-red-500 rounded-md flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-lg backdrop-blur-md"
-                                title={t('remove')}
-                            >
-                                ✕
-                            </button>
-                        )}
-                        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border ${rolStyles}`}>
-                            {t(currentRol)}
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border ${rolStyles}`}>
+                                {t(currentRol)}
+                            </span>
+                            {!onRemove && showReserve && addFavorite && (
+                                <button
+                                    onClick={async (e) => {
+                                        e.stopPropagation();
+                                        const success = await addFavorite(viaje.id);
+                                        if (success) {
+                                            alert('¡Añadido a favoritos!');
+                                        } else {
+                                            alert('Ya está en tus favoritos o hubo un error.');
+                                        }
+                                    }}
+                                    className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-md flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-lg backdrop-blur-md"
+                                    title="Añadir a favoritos"
+                                >
+                                    <StarIcon />
+                                </button>
+                            )}
+                            {onRemove && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onRemove(viaje.id);
+                                    }}
+                                    className="w-8 h-8 bg-red-500/10 border border-red-500/20 text-red-500 rounded-md flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-lg backdrop-blur-md"
+                                    title={t('remove')}
+                                >
+                                    ✕
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
 
