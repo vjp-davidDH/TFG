@@ -81,24 +81,74 @@ export const TripProvider = ({ children }) => {
         return false;
     };
 
-    const confirmBooking = (tripId) => {
-        const trip = reservations.find(r => r.id === tripId);
-        if (trip) {
-            setBookedTrips([...bookedTrips, { ...trip, status: 'paid' }]);
-            setReservations(reservations.filter(r => r.id !== tripId));
+    const confirmBooking = async (trip, method = 'tarjeta') => {
+        try {
+            let id_reserva = null;
+            if (trip && typeof trip === 'object') {
+                if (typeof trip.id_reserva === 'string' && trip.id_reserva.startsWith('local-')) {
+                    const newRes = await apiClient.reservations.create({ id_plan: trip.id, estado: 'confirmada' });
+                    id_reserva = newRes.id_reserva;
+                    setReservations(prev => prev.filter(r => r.id !== trip.id));
+                } else if (trip.id_reserva) {
+                    await apiClient.reservations.updateEstado(trip.id_reserva, 'confirmada');
+                    id_reserva = trip.id_reserva;
+                } else {
+                    const newRes = await apiClient.reservations.create({ id_plan: trip.id, estado: 'confirmada' });
+                    id_reserva = newRes.id_reserva;
+                    setReservations(prev => prev.filter(r => r.id !== trip.id));
+                }
+            } else {
+                const tripId = trip;
+                const newRes = await apiClient.reservations.create({ id_plan: tripId, estado: 'confirmada' });
+                id_reserva = newRes.id_reserva;
+                setReservations(prev => prev.filter(r => r.id !== tripId));
+            }
+
+            if (id_reserva) {
+                const amount = trip && typeof trip === 'object' ? (trip.precio || trip.precio_total || 0) : 0;
+                await apiClient.payments.create({
+                    id_reserva,
+                    monto: amount,
+                    metodo_pago: method,
+                    estado: 'pagado'
+                });
+            }
             return true;
+        } catch (error) {
+            console.error('Error confirming booking:', error);
+            return false;
         }
-        return false;
     };
 
     const removeReservation = (tripId) => {
         setReservations(reservations.filter(r => r.id !== tripId));
     };
 
+    const addFavorite = async (id_plan) => {
+        try {
+            await apiClient.favorites.add(id_plan);
+            return true;
+        } catch (error) {
+            console.error('Error adding favorite:', error);
+            return false;
+        }
+    };
+
+    const removeFavorite = async (id_plan) => {
+        try {
+            await apiClient.favorites.delete(id_plan);
+            return true;
+        } catch (error) {
+            console.error('Error removing favorite:', error);
+            return false;
+        }
+    };
+
     return (
         <TripContext.Provider value={{
             availableTrips, reservations, bookedTrips, allDestinations,
-            addReservation, confirmBooking, removeReservation, setAvailableTrips
+            addReservation, confirmBooking, removeReservation, setAvailableTrips,
+            addFavorite, removeFavorite
         }}>
             {children}
         </TripContext.Provider>

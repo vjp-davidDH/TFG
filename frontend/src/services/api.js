@@ -56,9 +56,29 @@ const apiClient = {
     getAll: () => apiClient.request('/reservas'),
     create: (data) =>
       apiClient.request('/reservas', { method: 'POST', body: JSON.stringify(data) }),
+    updateEstado: (id, estado) =>
+      apiClient.request(`/reservas/${id}/estado`, {
+        method: 'PATCH',
+        body: JSON.stringify({ estado }),
+      }),
+    delete: (id) =>
+      apiClient.request(`/reservas/${id}`, { method: 'DELETE' }),
   },
   destinations: {
     getAll: () => apiClient.request('/destinos'),
+  },
+  favorites: {
+    getAll: () => apiClient.request('/favoritos'),
+    add: (id_plan) =>
+      apiClient.request('/favoritos', { method: 'POST', body: JSON.stringify({ id_plan }) }),
+    delete: (id_plan) =>
+      apiClient.request(`/favoritos/${id_plan}`, { method: 'DELETE' }),
+  },
+  payments: {
+    create: (data) =>
+      apiClient.request('/pagos/', { method: 'POST', body: JSON.stringify(data) }),
+    getByReserva: (id_reserva) =>
+      apiClient.request(`/pagos/reserva/${id_reserva}`),
   },
 };
 

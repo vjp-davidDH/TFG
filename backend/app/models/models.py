@@ -219,7 +219,7 @@ class Reserva(db.Model):
             "estado":        self.estado,
             "total_pagado":  float(self.total_pagado),
             "usuario":       self.usuario.to_dict() if self.usuario else None,
-            "plan":          self.plan.to_dict()    if self.plan    else None,
+            "plan":          self.plan.to_dict(include_relations=True) if self.plan else None,
         }
 
 
@@ -273,7 +273,7 @@ class Favorito(db.Model):
         return {
             "id_usuario": self.id_usuario,
             "id_plan":    self.id_plan,
-            "plan":       self.plan.to_dict() if self.plan else None,
+            "plan":       self.plan.to_dict(include_relations=True) if self.plan else None,
         }
 
 
