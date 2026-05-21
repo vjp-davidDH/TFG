@@ -27,7 +27,7 @@ const Reservation = () => {
 
     if (!trip) return null;
 
-    const handlePayment = (e) => {
+    const handlePayment = async (e) => {
         e.preventDefault();
         const newErrors = {};
 
@@ -47,7 +47,13 @@ const Reservation = () => {
 
         // Simulate payment
         alert(t('paymentSuccess'));
-        confirmBooking(trip.id);
+        const mappedMethod = {
+            card: 'tarjeta',
+            paypal: 'paypal',
+            apple: 'tarjeta',
+            google: 'tarjeta'
+        }[paymentMethod] || 'tarjeta';
+        await confirmBooking(trip, mappedMethod);
         navigate('/reservas');
     };
 

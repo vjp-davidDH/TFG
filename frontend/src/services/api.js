@@ -19,7 +19,7 @@ const apiClient = {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error('API Error Response:', errorData);
-        throw new Error(errorData.message || `API Error: ${response.statusText}`);
+        throw new Error(errorData.error || errorData.message || `API Error: ${response.statusText}`);
       }
       const data = await response.json();
       console.log('API Response Success:', data);
@@ -48,17 +48,37 @@ const apiClient = {
     getById: (id) => apiClient.request(`/planes/${id}`),
   },
   users: {
-    getProfile: () => apiClient.request('/usuarios/perfil'),
+    getProfile: () => apiClient.request('/usuarios/me'),
     updateProfile: (data) =>
-      apiClient.request('/usuarios/perfil', { method: 'PUT', body: JSON.stringify(data) }),
+      apiClient.request('/usuarios/me', { method: 'PUT', body: JSON.stringify(data) }),
   },
   reservations: {
     getAll: () => apiClient.request('/reservas'),
     create: (data) =>
       apiClient.request('/reservas', { method: 'POST', body: JSON.stringify(data) }),
+    updateEstado: (id, estado) =>
+      apiClient.request(`/reservas/${id}/estado`, {
+        method: 'PATCH',
+        body: JSON.stringify({ estado }),
+      }),
+    delete: (id) =>
+      apiClient.request(`/reservas/${id}`, { method: 'DELETE' }),
   },
   destinations: {
     getAll: () => apiClient.request('/destinos'),
+  },
+  favorites: {
+    getAll: () => apiClient.request('/favoritos'),
+    add: (id_plan) =>
+      apiClient.request('/favoritos', { method: 'POST', body: JSON.stringify({ id_plan }) }),
+    delete: (id_plan) =>
+      apiClient.request(`/favoritos/${id_plan}`, { method: 'DELETE' }),
+  },
+  payments: {
+    create: (data) =>
+      apiClient.request('/pagos/', { method: 'POST', body: JSON.stringify(data) }),
+    getByReserva: (id_reserva) =>
+      apiClient.request(`/pagos/reserva/${id_reserva}`),
   },
 };
 

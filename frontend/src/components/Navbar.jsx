@@ -12,6 +12,34 @@ const Navbar = ({ onSearch }) => {
     const { theme, toggleTheme } = useTheme();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [userInitials, setUserInitials] = useState('??');
+
+    useEffect(() => {
+        const updateInitials = () => {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                try {
+                    const parsed = JSON.parse(storedUser);
+                    if (parsed.nombre) {
+                        const parts = parsed.nombre.trim().split(/\s+/);
+                        const initials = parts.length === 1 
+                            ? parts[0].substring(0, 2).toUpperCase() 
+                            : (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+                        setUserInitials(initials);
+                        return;
+                    }
+                } catch (e) {
+                    console.error("Error parsing user from localStorage:", e);
+                }
+            }
+            setUserInitials('??');
+        };
+
+        updateInitials();
+
+        window.addEventListener('storage', updateInitials);
+        return () => window.removeEventListener('storage', updateInitials);
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -80,7 +108,7 @@ const Navbar = ({ onSearch }) => {
                             className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-linear-to-br from-teal to-primary border-2 border-teal/40 flex items-center justify-center text-xs sm:text-sm font-bold text-white shadow-lg hover:scale-105 transition-transform"
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         >
-                            JD
+                            {userInitials}
                         </button>
                         
                         {isDropdownOpen && (
