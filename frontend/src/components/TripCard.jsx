@@ -6,48 +6,136 @@ import { useTrips } from '../context/TripContext';
 import { MapPinIcon, CalendarIcon, CheckIcon } from './Icons';
 
 // Import images for cards
+// Cusco
 import cuscoImg from '../assets/img/cusco/Cusco-2.jpg';
+import cusco2Img from '../assets/img/cusco/cusco2.jfif';
+import cusco3Img from '../assets/img/cusco/cusco3.jpg';
+import cusco4Img from '../assets/img/cusco/cusco4.webp';
+
+// Patagonia
 import patagoniaImg from '../assets/img/patagonia/Patagonia Salvaje.jfif';
+import patagonia2Img from '../assets/img/patagonia/patagonia.jpg';
+import patagonia3Img from '../assets/img/patagonia/patagonia2.jfif';
+import patagonia4Img from '../assets/img/patagonia/patagonia3.webp';
+
+// Samarcanda
 import samarcandaImg from '../assets/img/samarcanda/Samarcanda.jpg';
+import samarcanda2Img from '../assets/img/samarcanda/samarcada2.jfif';
+import samarcanda3Img from '../assets/img/samarcanda/samarcada3.jpg';
+import samarcanda4Img from '../assets/img/samarcanda/samrcada4.jpg';
+
+// Noruega
 import fiordosImg from '../assets/img/noruega/fiordos-noruegos.webp';
+import fiordos2Img from '../assets/img/noruega/noruega.jfif';
+import fiordos3Img from '../assets/img/noruega/noruega2.jpg';
+import fiordos4Img from '../assets/img/noruega/norueg3.jpg';
+
+// Kenia
 import keniaImg from '../assets/img/kenia/itinerario-viaje-kenia-2.webp';
+import kenia2Img from '../assets/img/kenia/kenia.jpg';
+import kenia3Img from '../assets/img/kenia/kenia2.jfif';
+import kenia4Img from '../assets/img/kenia/kenia3.jpg';
+
+// Miami
 import miamiImg from '../assets/img/miami/miami.jfif';
+import miami2Img from '../assets/img/miami/miami2.jpg';
+import miami3Img from '../assets/img/miami/miami3.jfif';
+import miami4Img from '../assets/img/miami/miami4.jpg';
+
+// China
 import murallaImg from '../assets/img/china/muralla china.jpg';
+import china2Img from '../assets/img/china/china.jpg';
+import china3Img from '../assets/img/china/china2.jfif';
+import china4Img from '../assets/img/china/china3.jfif';
+
+// New York
 import newyorkImg from '../assets/img/newyork/new york.jfif';
+import newyork2Img from '../assets/img/newyork/new york2.jfif';
+import newyork3Img from '../assets/img/newyork/new york3.jfif';
+import newyork4Img from '../assets/img/newyork/new york4.jpg';
+
+// Egipto
 import piramidesImg from '../assets/img/egipto/piramides.jfif';
+import egipto2Img from '../assets/img/egipto/egipto2.jfif';
+import egipto3Img from '../assets/img/egipto/egipto3.jpg';
+import egipto4Img from '../assets/img/egipto/egipto4.jpg';
+
+// Islandia
 import reikiavikImg from '../assets/img/islandia/reikiavik.webp';
+import islandia2Img from '../assets/img/islandia/islandia1.jpeg';
+import islandia3Img from '../assets/img/islandia/islandia2.avif';
+import islandia4Img from '../assets/img/islandia/islandia3.webp';
+
+// Tokyo
 import tokyoImg from '../assets/img/tokyo/tokyo.jpg';
 import tokyo2Img from '../assets/img/tokyo/tokyo2.jfif';
 import tokyo3Img from '../assets/img/tokyo/tokyo3.jfif';
 import tokyo4Img from '../assets/img/tokyo/tokyo4.jpg';
+
+// Paris
 import eiffelImg from '../assets/img/paris/torre-eiffel-altura.avif';
+import paris2Img from '../assets/img/paris/paris2.jpg';
+import paris3Img from '../assets/img/paris/paris3.jpg';
+import paris4Img from '../assets/img/paris/paris4.jfif';
 
 const getTripImages = (viaje) => {
-    if (!viaje) return [eiffelImg];
+    if (!viaje) return [eiffelImg, paris2Img, paris3Img, paris4Img];
     const dest = (viaje.destino || viaje.destination || '').toLowerCase();
     const tit = (viaje.titulo || viaje.title || '').toLowerCase();
 
-    if (dest.includes('cusco') || tit.includes('andes') || tit.includes('cusco')) return [cuscoImg];
-    if (dest.includes('chile') || dest.includes('patagonia') || tit.includes('patagonia')) return [patagoniaImg];
-    if (dest.includes('uzbek') || dest.includes('samar') || tit.includes('seda') || tit.includes('samar')) return [samarcandaImg];
-    if (dest.includes('noruega') || dest.includes('oslo') || tit.includes('fiordo') || tit.includes('norue')) return [fiordosImg];
-    if (dest.includes('kenya') || dest.includes('nairobi') || tit.includes('safari') || tit.includes('kenya')) return [keniaImg];
-    if (dest.includes('miami') || tit.includes('caribe') || tit.includes('miami')) return [miamiImg];
-    if (dest.includes('china') || dest.includes('beijing') || tit.includes('muralla')) return [murallaImg];
-    if (dest.includes('york') || tit.includes('broadway') || tit.includes('york')) return [newyorkImg];
-    if (dest.includes('egipto') || dest.includes('cairo') || tit.includes('pirámide') || tit.includes('piramide')) return [piramidesImg];
-    if (dest.includes('islandia') || dest.includes('reyk') || tit.includes('aurora') || tit.includes('reikiavik')) return [reikiavikImg];
+    if (dest.includes('cusco') || tit.includes('andes') || tit.includes('cusco')) {
+        return [cuscoImg, cusco2Img, cusco3Img, cusco4Img];
+    }
+    if (dest.includes('chile') || dest.includes('patagonia') || tit.includes('patagonia')) {
+        return [patagoniaImg, patagonia2Img, patagonia3Img, patagonia4Img];
+    }
+    if (dest.includes('uzbek') || dest.includes('samar') || tit.includes('seda') || tit.includes('samar')) {
+        return [samarcandaImg, samarcanda2Img, samarcanda3Img, samarcanda4Img];
+    }
+    if (dest.includes('noruega') || dest.includes('oslo') || tit.includes('fiordo') || tit.includes('norue')) {
+        return [fiordosImg, fiordos2Img, fiordos3Img, fiordos4Img];
+    }
+    if (dest.includes('kenya') || dest.includes('nairobi') || tit.includes('safari') || tit.includes('kenya')) {
+        return [keniaImg, kenia2Img, kenia3Img, kenia4Img];
+    }
+    if (dest.includes('miami') || tit.includes('caribe') || tit.includes('miami')) {
+        return [miamiImg, miami2Img, miami3Img, miami4Img];
+    }
+    if (dest.includes('china') || dest.includes('beijing') || tit.includes('muralla')) {
+        return [murallaImg, china2Img, china3Img, china4Img];
+    }
+    if (dest.includes('york') || tit.includes('broadway') || tit.includes('york')) {
+        return [newyorkImg, newyork2Img, newyork3Img, newyork4Img];
+    }
+    if (dest.includes('egipto') || dest.includes('cairo') || tit.includes('pirámide') || tit.includes('piramide')) {
+        return [piramidesImg, egipto2Img, egipto3Img, egipto4Img];
+    }
+    if (dest.includes('islandia') || dest.includes('reyk') || tit.includes('aurora') || tit.includes('reikiavik')) {
+        return [reikiavikImg, islandia2Img, islandia3Img, islandia4Img];
+    }
     if (dest.includes('tokyo') || dest.includes('japon') || dest.includes('japón') || tit.includes('tokyo') || tit.includes('tokio')) {
         return [tokyoImg, tokyo2Img, tokyo3Img, tokyo4Img];
     }
-    if (dest.includes('paris') || dest.includes('parís') || dest.includes('francia') || tit.includes('euro') || tit.includes('eiffel')) return [eiffelImg];
+    if (dest.includes('paris') || dest.includes('parís') || dest.includes('francia') || tit.includes('euro') || tit.includes('eiffel')) {
+        return [eiffelImg, paris2Img, paris3Img, paris4Img];
+    }
 
     // Fallback based on id
-    const defaultImages = [
-        eiffelImg, cuscoImg, tokyoImg, keniaImg, reikiavikImg, miamiImg,
-        samarcandaImg, patagoniaImg, newyorkImg, murallaImg, fiordosImg, piramidesImg
+    const defaultImageArrays = [
+        [eiffelImg, paris2Img, paris3Img, paris4Img],
+        [cuscoImg, cusco2Img, cusco3Img, cusco4Img],
+        [tokyoImg, tokyo2Img, tokyo3Img, tokyo4Img],
+        [keniaImg, kenia2Img, kenia3Img, kenia4Img],
+        [reikiavikImg, islandia2Img, islandia3Img, islandia4Img],
+        [miamiImg, miami2Img, miami3Img, miami4Img],
+        [samarcandaImg, samarcanda2Img, samarcanda3Img, samarcanda4Img],
+        [patagoniaImg, patagonia2Img, patagonia3Img, patagonia4Img],
+        [newyorkImg, newyork2Img, newyork3Img, newyork4Img],
+        [murallaImg, china2Img, china3Img, china4Img],
+        [fiordosImg, fiordos2Img, fiordos3Img, fiordos4Img],
+        [piramidesImg, egipto2Img, egipto3Img, egipto4Img]
     ];
-    return [defaultImages[(viaje.id || 0) % defaultImages.length]];
+    return defaultImageArrays[(viaje.id || 0) % defaultImageArrays.length];
 };
 
 const getTripImage = (viaje) => {
