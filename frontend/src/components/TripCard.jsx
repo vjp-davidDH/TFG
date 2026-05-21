@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
@@ -79,7 +79,12 @@ import paris4Img from '../assets/img/paris/paris4.jfif';
 
 const getTripImages = (viaje) => {
     if (!viaje) return [eiffelImg, paris2Img, paris3Img, paris4Img];
-    const dest = (viaje.destino || viaje.destination || '').toLowerCase();
+    let dest = viaje.destino || viaje.destination || '';
+    if (typeof dest === 'object' && dest !== null) {
+        // Si es un objeto, intenta formatear como string
+        dest = `${dest.ciudad || ''}, ${dest.pais || ''}`;
+    }
+    dest = (dest || '').toLowerCase();
     const tit = (viaje.titulo || viaje.title || '').toLowerCase();
 
     if (dest.includes('cusco') || tit.includes('andes') || tit.includes('cusco')) {
@@ -142,10 +147,14 @@ const getTripImage = (viaje) => {
     return imgs[0];
 };
 
-const getDestinoDescripcion = (viaje, t) => {
+const getDestinoDescripcion = (viaje) => {
     if (viaje.destino_descripcion) return viaje.destino_descripcion;
-    const dest = (viaje.destino || viaje.destination || '').toLowerCase();
-    
+    let dest = viaje.destino || viaje.destination || '';
+    if (typeof dest === 'object' && dest !== null) {
+        dest = `${dest.ciudad || ''}, ${dest.pais || ''}`;
+    }
+    dest = (dest || '').toLowerCase();
+
     if (dest.includes('madrid')) return 'Capital de España con cultura, ocio y gastronomía.';
     if (dest.includes('parís') || dest.includes('paris')) return 'Ciudad turística famosa por la Torre Eiffel.';
     if (dest.includes('marrakech') || dest.includes('marrakesh')) return 'Ciudad imperial con zocos vibrantes.';
@@ -158,7 +167,7 @@ const getDestinoDescripcion = (viaje, t) => {
     if (dest.includes('praga') || dest.includes('prague')) return 'La ciudad de las cien torres.';
     if (dest.includes('viena') || dest.includes('vienna')) return 'Elegancia imperial y música clásica.';
     if (dest.includes('ámsterdam') || dest.includes('amsterdam')) return 'Canales históricos y ambiente liberal.';
-    
+
     // For other places not in seed SQL but in mock data
     if (dest.includes('cusco') || dest.includes('perú') || dest.includes('peru')) return 'Antigua capital del Imperio Inca, famosa por su arqueología y arquitectura colonial.';
     if (dest.includes('patagonia') || dest.includes('chile')) return 'Región salvaje con majestuosos glaciares, montañas andinas y lagos turquesa.';
@@ -168,7 +177,7 @@ const getDestinoDescripcion = (viaje, t) => {
     if (dest.includes('miami')) return 'Vibrante ciudad costera conocida por sus playas, arte art déco y vida nocturna.';
     if (dest.includes('china') || dest.includes('beijing')) return 'Una de las grandes maravillas del mundo, llena de templos antiguos y la gran muralla.';
     if (dest.includes('islandia') || dest.includes('reyk')) return 'Tierra de fuego y hielo con géiseres activos, cascadas y auroras boreales.';
-    
+
     return 'Lugar espectacular lleno de encantos únicos por descubrir.';
 };
 
@@ -179,11 +188,13 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const navigate = useNavigate();
 
-    const { titulo, title, destino, destination, fechaInicio, startDate, fechaFin, endDate, rol, precio, descripcion, description, destino_descripcion } = viaje;
+    const { titulo, title, destino, destination, fechaInicio, startDate, fechaFin, endDate, rol, precio, descripcion, description} = viaje;
 
-    const { titulo, title, fechaInicio, startDate, fechaFin, endDate, rol, precio } = viaje;
     const displayTitulo = titulo || title || 'Sin título';
-    const displayDestino = destino || destination || 'Destino desconocido';
+    let displayDestino = destino || destination || 'Destino desconocido';
+    if (typeof displayDestino === 'object' && displayDestino !== null) {
+        displayDestino = `${displayDestino.ciudad || ''}, ${displayDestino.pais || ''}`;
+    }
     const displayResumen = descripcion || description || viaje.resumen || viaje.summary || t('tripSummary');
     const displayDestinoDescripcion = getDestinoDescripcion(viaje, t);
     const tripImages = getTripImages(viaje);
@@ -218,12 +229,12 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
     return (
         <article className="group card-3d stagger-in">
             <div className={`card-3d-content glass flex flex-col gap-4 p-6 rounded-[28px] h-full relative overflow-hidden ${isBooked ? 'opacity-80 grayscale-[0.3]' : ''}`}>
-                
+
                 {/* Image frame - beautifully adjusted to fit the space */}
                 <div className="relative overflow-hidden w-full aspect-video rounded-2xl border border-border-card/25 shadow-inner transition-all duration-700">
-                    <img 
-                        src={getTripImage(viaje)} 
-                        alt={displayTitulo} 
+                    <img
+                        src={getTripImage(viaje)}
+                        alt={displayTitulo}
                         className="w-full h-full object-cover group-hover:scale-108 transition-all duration-700 ease-[cubic-bezier(0.15,0.83,0.66,1)]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60"></div>
@@ -342,9 +353,9 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
 
                         {/* Image Carousel Header for details modal */}
                         <div className="relative overflow-hidden w-full h-48 sm:h-64 rounded-2xl border border-border-card/30 mb-6 group/carousel">
-                            <img 
-                                src={tripImages[currentImageIndex]} 
-                                alt={`${displayTitulo} - ${currentImageIndex + 1}`} 
+                            <img
+                                src={tripImages[currentImageIndex]}
+                                alt={`${displayTitulo} - ${currentImageIndex + 1}`}
                                 className="w-full h-full object-cover transition-all duration-500 ease-in-out"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
@@ -352,7 +363,7 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                             {/* Carousel Arrows (only if multiple images exist) */}
                             {tripImages.length > 1 && (
                                 <>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setCurrentImageIndex(prev => (prev === 0 ? tripImages.length - 1 : prev - 1));
@@ -362,7 +373,7 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                                     >
                                         ⟨
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setCurrentImageIndex(prev => (prev === tripImages.length - 1 ? 0 : prev + 1));
@@ -382,11 +393,10 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                                                     e.stopPropagation();
                                                     setCurrentImageIndex(idx);
                                                 }}
-                                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                                    idx === currentImageIndex 
-                                                        ? 'bg-teal w-4' 
+                                                className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentImageIndex
+                                                        ? 'bg-teal w-4'
                                                         : 'bg-white/40 hover:bg-white/70'
-                                                }`}
+                                                    }`}
                                                 title={`Go to image ${idx + 1}`}
                                             />
                                         ))}
