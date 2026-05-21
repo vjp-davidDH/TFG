@@ -8,15 +8,14 @@ import { MapPinIcon, CalendarIcon, CheckIcon } from './Icons';
 // Import images for cards
 // Cusco
 import cuscoImg from '../assets/img/cusco/Cusco-2.jpg';
-import cusco2Img from '../assets/img/cusco/cusco2.jfif';
+import cusco2Img from '../assets/img/cusco/cusco2.png';
 import cusco3Img from '../assets/img/cusco/cusco3.jpg';
 import cusco4Img from '../assets/img/cusco/cusco4.webp';
 
 // Patagonia
-import patagoniaImg from '../assets/img/patagonia/Patagonia Salvaje.jfif';
-import patagonia2Img from '../assets/img/patagonia/patagonia.jpg';
-import patagonia3Img from '../assets/img/patagonia/patagonia2.jfif';
-import patagonia4Img from '../assets/img/patagonia/patagonia3.webp';
+import patagoniaImg from '../assets/img/patagonia/patagonia.jpg';
+import patagonia2Img from '../assets/img/patagonia/patagonia2.jfif';
+import patagonia3Img from '../assets/img/patagonia/patagonia3.webp';
 
 // Samarcanda
 import samarcandaImg from '../assets/img/samarcanda/Samarcanda.jpg';
@@ -87,7 +86,7 @@ const getTripImages = (viaje) => {
         return [cuscoImg, cusco2Img, cusco3Img, cusco4Img];
     }
     if (dest.includes('chile') || dest.includes('patagonia') || tit.includes('patagonia')) {
-        return [patagoniaImg, patagonia2Img, patagonia3Img, patagonia4Img];
+        return [patagoniaImg, patagonia2Img, patagonia3Img];
     }
     if (dest.includes('uzbek') || dest.includes('samar') || tit.includes('seda') || tit.includes('samar')) {
         return [samarcandaImg, samarcanda2Img, samarcanda3Img, samarcanda4Img];
@@ -129,7 +128,7 @@ const getTripImages = (viaje) => {
         [reikiavikImg, islandia2Img, islandia3Img, islandia4Img],
         [miamiImg, miami2Img, miami3Img, miami4Img],
         [samarcandaImg, samarcanda2Img, samarcanda3Img, samarcanda4Img],
-        [patagoniaImg, patagonia2Img, patagonia3Img, patagonia4Img],
+        [patagoniaImg, patagonia2Img, patagonia3Img],
         [newyorkImg, newyork2Img, newyork3Img, newyork4Img],
         [murallaImg, china2Img, china3Img, china4Img],
         [fiordosImg, fiordos2Img, fiordos3Img, fiordos4Img],
@@ -143,6 +142,36 @@ const getTripImage = (viaje) => {
     return imgs[0];
 };
 
+const getDestinoDescripcion = (viaje, t) => {
+    if (viaje.destino_descripcion) return viaje.destino_descripcion;
+    const dest = (viaje.destino || viaje.destination || '').toLowerCase();
+    
+    if (dest.includes('madrid')) return 'Capital de España con cultura, ocio y gastronomía.';
+    if (dest.includes('parís') || dest.includes('paris')) return 'Ciudad turística famosa por la Torre Eiffel.';
+    if (dest.includes('marrakech') || dest.includes('marrakesh')) return 'Ciudad imperial con zocos vibrantes.';
+    if (dest.includes('tokio') || dest.includes('tokyo')) return 'Metrópolis futurista con raíces tradicionales.';
+    if (dest.includes('londres') || dest.includes('london')) return 'Centro histórico y cultural global.';
+    if (dest.includes('berlín') || dest.includes('berlin')) return 'Ciudad de historia moderna y arte.';
+    if (dest.includes('roma')) return 'La ciudad eterna con monumentos antiguos.';
+    if (dest.includes('nueva york') || dest.includes('new york') || dest.includes('ny')) return 'La gran manzana, nunca duerme.';
+    if (dest.includes('lisboa') || dest.includes('lisbon')) return 'Ciudad de las siete colinas y fado.';
+    if (dest.includes('praga') || dest.includes('prague')) return 'La ciudad de las cien torres.';
+    if (dest.includes('viena') || dest.includes('vienna')) return 'Elegancia imperial y música clásica.';
+    if (dest.includes('ámsterdam') || dest.includes('amsterdam')) return 'Canales históricos y ambiente liberal.';
+    
+    // For other places not in seed SQL but in mock data
+    if (dest.includes('cusco') || dest.includes('perú') || dest.includes('peru')) return 'Antigua capital del Imperio Inca, famosa por su arqueología y arquitectura colonial.';
+    if (dest.includes('patagonia') || dest.includes('chile')) return 'Región salvaje con majestuosos glaciares, montañas andinas y lagos turquesa.';
+    if (dest.includes('samarcanda') || dest.includes('uzbek')) return 'Histórica ciudad de la Ruta de la Seda conocida por sus mezquitas y mausoleos.';
+    if (dest.includes('noruega') || dest.includes('oslo') || dest.includes('fiordo')) return 'Impresionantes fiordos tallados por glaciares bajo el sol de medianoche.';
+    if (dest.includes('kenia') || dest.includes('kenya') || dest.includes('nairobi')) return 'Reserva natural icónica para safaris de fauna salvaje en la sabana africana.';
+    if (dest.includes('miami')) return 'Vibrante ciudad costera conocida por sus playas, arte art déco y vida nocturna.';
+    if (dest.includes('china') || dest.includes('beijing')) return 'Una de las grandes maravillas del mundo, llena de templos antiguos y la gran muralla.';
+    if (dest.includes('islandia') || dest.includes('reyk')) return 'Tierra de fuego y hielo con géiseres activos, cascadas y auroras boreales.';
+    
+    return 'Lugar espectacular lleno de encantos únicos por descubrir.';
+};
+
 const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, onRemove, isBooked = false }) => {
     const { t } = useLanguage();
     const { addReservation } = useTrips();
@@ -150,10 +179,12 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const navigate = useNavigate();
 
-    const { titulo, title, destino, destination, fechaInicio, startDate, fechaFin, endDate, rol, precio } = viaje;
+    const { titulo, title, destino, destination, fechaInicio, startDate, fechaFin, endDate, rol, precio, descripcion, description, destino_descripcion } = viaje;
 
     const displayTitulo = titulo || title || 'Sin título';
     const displayDestino = destino || destination || 'Destino desconocido';
+    const displayResumen = descripcion || description || viaje.resumen || viaje.summary || t('tripSummary');
+    const displayDestinoDescripcion = getDestinoDescripcion(viaje, t);
     const tripImages = getTripImages(viaje);
 
     const handleOpenDetails = () => {
@@ -220,6 +251,10 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                         </span>
                     </div>
                 </div>
+
+                <p className="text-xs text-text-muted/80 relative z-10 transition-all duration-700 line-clamp-2">
+                    {displayResumen}
+                </p>
 
                 <p className="flex items-center gap-2 text-sm text-text-muted relative z-10 transition-all duration-700">
                     <MapPinIcon />
@@ -354,6 +389,10 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                                 {displayTitulo}
                             </h2>
 
+                            <p className="text-sm text-text-muted/80 mt-2">
+                                {displayResumen}
+                            </p>
+
                             <p className="text-text-muted mt-2 flex items-center gap-2">
                                 <MapPinIcon /> {displayDestino}
                             </p>
@@ -385,11 +424,11 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
 
                             <div className="p-6 bg-linear-to-br from-teal/10 to-primary/10 rounded-2xl border border-border-card">
                                 <p className="text-[10px] uppercase text-text-muted font-bold mb-2">
-                                    {t('summary')}
+                                    {t('aboutPlace')}
                                 </p>
 
                                 <p className="text-base leading-relaxed text-text-primary">
-                                    {t('tripSummary')}
+                                    {displayDestinoDescripcion}
                                 </p>
                             </div>
 
