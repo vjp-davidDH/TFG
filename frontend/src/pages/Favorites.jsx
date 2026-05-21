@@ -13,7 +13,7 @@ const Favorites = () => {
     return (
         <main className="max-w-7xl mx-auto px-6 pt-24 pb-12 animate-in fade-in duration-500">
             <header className="mb-10">
-                <h1 className="text-4xl font-extrabold bg-linear-to-r from-accent to-primary bg-clip-text text-transparent">
+                <h1 className="text-4xl font-black bg-linear-to-r from-teal-glow to-primary bg-clip-text text-transparent uppercase tracking-tight">
                     {t('myFavorites')}
                 </h1>
                 <p className="text-text-muted mt-2">Tus destinos guardados</p>
