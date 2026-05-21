@@ -13,6 +13,9 @@ let todosLosViajes = [];   // cache completo de la API
 let filtroActivo  = 'todos';
 let busqueda      = '';
 
+// Instancias de Flatpickr
+let fpInicio, fpFin;
+
 // ─── Helpers ──────────────────────────────────────────
 
 /** Devuelve el token o redirige al login si no existe */
@@ -65,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarViajes();
     inicializarBusqueda();
     inicializarModalTeclado();
+    inicializarCalendarios();
 });
 
 // ─── Avatar ───────────────────────────────────────────
@@ -292,6 +296,36 @@ window.addEventListener('click', (e) => {
     }
 });
 
+// ─── Calendarios (Flatpickr) ──────────────────────────
+
+function inicializarCalendarios() {
+    // Configuración base
+    const configBase = {
+        locale: 'es',
+        dateFormat: 'Y-m-d', // Formato para la API
+        altInput: true,      // Muestra un formato más amigable al usuario
+        altFormat: 'd/m/Y',
+        allowInput: true,    // Permite escribir a mano
+        disableMobile: true, // Forzamos el uso de flatpickr en móviles para mantener el diseño
+    };
+
+    fpInicio = flatpickr("#nuevo-fecha-inicio", {
+        ...configBase,
+        onChange: function(selectedDates, dateStr) {
+            // Cuando cambia inicio, establecemos la fecha mínima de fin
+            fpFin.set("minDate", dateStr);
+        }
+    });
+
+    fpFin = flatpickr("#nuevo-fecha-fin", {
+        ...configBase,
+        onChange: function(selectedDates, dateStr) {
+            // Cuando cambia fin, establecemos la fecha máxima de inicio
+            fpInicio.set("maxDate", dateStr);
+        }
+    });
+}
+
 // ─── Modal: Crear Viaje ───────────────────────────────
 
 /** Elemento que tenía el foco antes de abrir el modal (para restaurarlo al cerrar) */
@@ -306,8 +340,11 @@ function abrirModalCrear() {
     // Limpia campos y errores
     document.getElementById('nuevo-titulo').value      = '';
     document.getElementById('nuevo-destino').value     = '';
-    document.getElementById('nuevo-fecha-inicio').value = '';
-    document.getElementById('nuevo-fecha-fin').value   = '';
+    
+    // Limpiamos flatpickr
+    if (fpInicio) fpInicio.clear();
+    if (fpFin) fpFin.clear();
+    
     limpiarErrorModal();
 
     // Foco al primer campo (accesibilidad)

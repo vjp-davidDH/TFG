@@ -20,17 +20,9 @@ Abre una terminal (PowerShell recomendado) y ejecuta los siguientes comandos par
 ```powershell
 # 1. Moverse a la carpeta del backend
 cd backend/
-
-# 2. Crear el entorno virtual (venv)
-python -m venv venv
-
-# 3. Iniciar el entorno virtual
-.\venv\Scripts\Activate.ps1
-
-# 4. Instalar las dependencias
+venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-
-# 5. Ejecutar la aplicación (la base de datos se creará automáticamente)
+// CON EL XAMPP ENCENDIDO
 python run.py
 ```
 > **Nota:** El servidor backend debería estar corriendo ahora en `http://127.0.0.1:5000`
@@ -44,11 +36,7 @@ Abre **otra nueva terminal** (para no cerrar la del backend) y ejecuta los sigui
 ```powershell
 # 1. Moverse a la carpeta del frontend
 cd frontend/
-
-# 2. Instalar los paquetes de Node
-npm install
-
-# 3. Arrancar el servidor de desarrollo
+npm run install
 npm run dev
 ```
 
