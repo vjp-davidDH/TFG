@@ -132,3 +132,79 @@
   0% { transform: translateY(30px); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* Custom styling for Leaflet elements */
+.leaflet-popup-content-wrapper {
+  background: var(--color-bg-deep) !important;
+  border: 1px solid var(--color-border-card) !important;
+  border-radius: 20px !important;
+  padding: 0 !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--color-bg-deep) !important;
+  border: 1px solid var(--color-border-card) !important;
+}
+
+.leaflet-popup-close-button {
+  color: var(--color-text-muted) !important;
+  font-weight: bold !important;
+  margin-top: 8px !important;
+  margin-right: 8px !important;
+}
+
+.custom-cluster-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.custom-cluster-icon > div {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--color-teal), var(--color-primary));
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 900;
+  box-shadow: 0 0 20px hsla(175, 70%, 50%, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.custom-cluster-icon > div:hover {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 0 25px hsla(175, 70%, 50%, 0.7);
+}
+
+/* Override default cluster css classes */
+.marker-cluster {
+  background: none !important;
+}
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: transparent !important;
+}
+
+/* Pulsing effect for single marker dot */
+@keyframes markerPing {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.pulsing-marker-ping {
+  animation: markerPing 1.8s infinite ease-out;
+}

@@ -7,12 +7,14 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTrips } from '../context/TripContext';
 import { PlusIcon, MapPinIcon, CalendarIcon, SearchIcon } from '../components/Icons';
 import apiClient from '../services/api';
+import TripMapModal from '../components/TripMapModal';
 
 const Dashboard = ({ searchTerm }) => {
     const { t } = useLanguage();
     const { availableTrips, setAvailableTrips, allDestinations } = useTrips();
     const [filtro, setFiltro] = useState('todos');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
     const [nuevoViaje, setNuevoViaje] = useState({ titulo: '', id_destino: '', fechaInicio: null, fechaFin: null, precio: 500 });
 
@@ -65,13 +67,22 @@ const Dashboard = ({ searchTerm }) => {
                         {t('exploring')} {availableTrips.length} {t('destinations')}
                     </p>
                 </div>
-                <button 
-                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-br from-teal to-primary rounded-2xl text-white font-bold shadow-lg shadow-teal/20 hover:scale-[1.02] transition-all active:scale-95"
-                    onClick={() => setIsModalOpen(true)}
-                >
-                    <PlusIcon />
-                    <span className="uppercase text-xs tracking-wider">{t('newTrip')}</span>
-                </button>
+                <div className="flex items-center gap-3">
+                    <button 
+                        className="flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-2xl text-text-primary font-bold shadow-lg transition-all active:scale-95 hover:scale-[1.02] hover:border-teal/30 cursor-pointer"
+                        onClick={() => setIsMapModalOpen(true)}
+                    >
+                        <MapPinIcon />
+                        <span className="uppercase text-xs tracking-wider">Ver Mapa</span>
+                    </button>
+                    <button 
+                        className="flex items-center gap-2 px-5 py-3 bg-linear-to-br from-teal to-primary rounded-2xl text-white font-bold shadow-lg shadow-teal/20 hover:scale-[1.02] transition-all active:scale-95"
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        <PlusIcon />
+                        <span className="uppercase text-xs tracking-wider">{t('newTrip')}</span>
+                    </button>
+                </div>
             </header>
 
             <div className="flex gap-2.5 mb-8 overflow-x-auto pb-2 scrollbar-hide">
@@ -171,6 +182,12 @@ const Dashboard = ({ searchTerm }) => {
                     </form>
                 </div>
             )}
+
+            <TripMapModal 
+                isOpen={isMapModalOpen} 
+                onClose={() => setIsMapModalOpen(false)} 
+                trips={availableTrips} 
+            />
         </main>
     );
 };

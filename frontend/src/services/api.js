@@ -19,7 +19,7 @@ const apiClient = {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error('API Error Response:', errorData);
-        throw new Error(errorData.message || `API Error: ${response.statusText}`);
+        throw new Error(errorData.error || errorData.message || `API Error: ${response.statusText}`);
       }
       const data = await response.json();
       console.log('API Response Success:', data);
@@ -48,9 +48,9 @@ const apiClient = {
     getById: (id) => apiClient.request(`/planes/${id}`),
   },
   users: {
-    getProfile: () => apiClient.request('/usuarios/perfil'),
+    getProfile: () => apiClient.request('/usuarios/me'),
     updateProfile: (data) =>
-      apiClient.request('/usuarios/perfil', { method: 'PUT', body: JSON.stringify(data) }),
+      apiClient.request('/usuarios/me', { method: 'PUT', body: JSON.stringify(data) }),
   },
   reservations: {
     getAll: () => apiClient.request('/reservas'),
