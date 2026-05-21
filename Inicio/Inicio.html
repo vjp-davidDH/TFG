@@ -7,6 +7,9 @@
     <title>TripCollab — Mis Viajes</title>
     <meta name="description" content="Gestiona y planifica todos tus viajes colaborativos en TripCollab.">
     <link rel="stylesheet" href="css/Inicio.css">
+    <!-- Flatpickr (Calendar) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
 </head>
 
 <body class="dashboard-body">
@@ -154,13 +157,13 @@
                     <div class="input-group">
                         <label for="nuevo-fecha-inicio" class="sr-only">Fecha de inicio</label>
                         <span class="input-icon" aria-hidden="true">📅</span>
-                        <input type="date" id="nuevo-fecha-inicio" aria-label="Fecha de inicio del viaje"
+                        <input type="text" id="nuevo-fecha-inicio" placeholder="Fecha inicio: dd/mm/aaaa" aria-label="Fecha de inicio del viaje"
                             aria-required="true">
                     </div>
                     <div class="input-group">
-                        <label for="nuevo-fecha-fin" class="sr-only">Fecha de fin</label>
+                        <label for="nuevo-fecha-fin" class="sr-only">Fecha de fin </label>
                         <span class="input-icon" aria-hidden="true">🏁</span>
-                        <input type="date" id="nuevo-fecha-fin" aria-label="Fecha de fin del viaje"
+                        <input type="text" id="nuevo-fecha-fin" placeholder="Fecha fin: dd/mm/aaaa" aria-label="Fecha de fin del viaje"
                             aria-required="true">
                     </div>
                 </div>
@@ -185,6 +188,10 @@
         <span class="lang-flag" id="lang-flag">🇪🇸</span>
     </button>
 
+    <!-- Flatpickr JS & Spanish Locales -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    
     <script src="js/Inicio.js"></script>
     <script src="../js/i18n.js"></script>
 </body>
