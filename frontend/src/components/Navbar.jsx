@@ -59,32 +59,37 @@ const Navbar = ({ onSearch }) => {
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-bg-deep border-b border-border-card shadow-sm transition-colors duration-300">
-            <div className="max-w-7xl mx-auto px-6 h-full flex items-center gap-5">
-                <Link to="/" className="flex items-center gap-2.5 shrink-0 hover:opacity-80 transition-opacity">
-                    <span className="text-teal drop-shadow-[0_0_10px_rgba(20,255,200,0.8)]" aria-hidden="true">
-                        <PlaneIcon />
-                    </span>
-                    <span className="text-xl font-extrabold tracking-tight bg-linear-to-r from-teal to-primary bg-clip-text text-transparent uppercase">
-                        TripCollab
-                    </span>
-                </Link>
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 h-full flex items-center justify-between">
+                {/* Left side: Logo wrapper */}
+                <div className="flex-1 flex justify-start">
+                    <Link to="/" className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+                        <span className="text-teal drop-shadow-[0_0_10px_rgba(20,255,200,0.8)]" aria-hidden="true">
+                            <PlaneIcon />
+                        </span>
+                        <span className="inline text-xs sm:text-xl font-extrabold tracking-tight bg-linear-to-r from-teal to-primary bg-clip-text text-transparent uppercase">
+                            TripCollab
+                        </span>
+                    </Link>
+                </div>
 
-                <div className="flex-1 flex justify-center">
-                    <div className="relative w-full max-w-md">
-                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" aria-hidden="true"><SearchIcon /></span>
+                {/* Center: Search input */}
+                <div className="flex-none w-full max-w-[125px] sm:max-w-md px-1">
+                    <div className="relative w-full">
+                        <span className="absolute left-2.5 sm:left-3.5 top-1/2 -translate-y-1/2 text-text-muted hidden sm:block" aria-hidden="true"><SearchIcon /></span>
                         <input 
                             type="search" 
                             placeholder={t('searchPlaceholder')}
-                            className="w-full pl-10 pr-4 py-2 bg-input-bg border border-input-border rounded-xl text-sm focus:outline-hidden focus:border-teal/50 transition-all text-text-primary placeholder:text-text-muted"
+                            className="w-full pl-3 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 bg-input-bg border border-input-border rounded-xl text-xs sm:text-sm focus:outline-hidden focus:border-teal/50 transition-all text-text-primary placeholder:text-text-muted"
                             onChange={(e) => onSearch(e.target.value)}
                         />
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 shrink-0">
+                {/* Right side: Actions wrapper */}
+                <div className="flex-1 flex justify-end items-center gap-1.5 sm:gap-4 shrink-0">
                     <button 
                         onClick={toggleLanguage}
-                        className="w-10 h-10 rounded-xl bg-bg-card border border-border-card flex items-center justify-center text-xs font-bold hover:bg-white/10 transition-all text-text-primary"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-bg-card border border-border-card flex items-center justify-center text-[10px] sm:text-xs font-bold hover:bg-white/10 transition-all text-text-primary"
                         title="Change Language"
                     >
                         {lang.toUpperCase()}
@@ -92,7 +97,7 @@ const Navbar = ({ onSearch }) => {
 
                     <button 
                         onClick={toggleTheme}
-                        className="w-10 h-10 rounded-xl bg-bg-card border border-border-card flex items-center justify-center hover:bg-white/10 transition-all text-text-primary"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-bg-card border border-border-card flex items-center justify-center hover:bg-white/10 transition-all text-text-primary"
                         title="Toggle Theme"
                     >
                         {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
@@ -100,7 +105,7 @@ const Navbar = ({ onSearch }) => {
 
                     <div className="relative" ref={dropdownRef}>
                         <button 
-                            className="w-10 h-10 rounded-full bg-linear-to-br from-teal to-primary border-2 border-teal/40 flex items-center justify-center text-sm font-bold text-white shadow-lg hover:scale-105 transition-transform"
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-linear-to-br from-teal to-primary border-2 border-teal/40 flex items-center justify-center text-xs sm:text-sm font-bold text-white shadow-lg hover:scale-105 transition-transform"
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         >
                             {userInitials}

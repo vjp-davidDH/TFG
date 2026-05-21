@@ -105,43 +105,18 @@ const MyReservations = () => {
                     </div>
                 </header>
 
-                {loading ? (
-                    <div className="glass p-16 rounded-[32px] text-center border-dashed border-2 border-white/5 bg-white/[0.02]">
-                        <div className="text-5xl mb-4">⏳</div>
-                        <h2 className="text-xl font-bold text-text-muted">Cargando reservas...</h2>
-                    </div>
-                ) : error ? (
-                    <div className="glass p-16 rounded-[32px] text-center border-dashed border-2 border-white/5 bg-white/[0.02]">
-                        <div className="text-5xl mb-4">❌</div>
-                        <h2 className="text-xl font-bold text-text-muted">{error}</h2>
-                    </div>
-                ) : reservas.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {reservas.map(r => {
-                            const { fechaInicio, fechaFin } = getDates(r.plan);
-                            return (
-                                <TripCard
-                                    key={r.id_reserva}
-                                    viaje={{
-                                        ...r.plan,
-                                        id: r.id_reserva,
-                                        titulo: r.plan?.nombre || 'Sin título',
-                                        destino: r.plan?.destino,
-                                        precio: r.plan?.precio_total || 0,
-                                        fechaInicio,
-                                        fechaFin,
-                                        estado: r.estado,
-                                        total_pagado: r.total_pagado,
-                                        fecha_reserva: r.fecha_reserva,
-                                        rol: r.plan?.rol || 'colaborador'
-                                    }}
-                                    showReserve={false}
-                                    showConfirm={r.estado === 'pendiente'}
-                                    onConfirm={() => handleConfirm(r)}
-                                    onRemove={() => handleRemove(r.id_reserva)}
-                                />
-                            );
-                        })}
+                {reservations.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {reservations.map(r => (
+                            <TripCard 
+                                key={r.id} 
+                                viaje={r} 
+                                showReserve={false} 
+                                showConfirm={true} 
+                                onConfirm={handleConfirm}
+                                onRemove={removeReservation}
+                            />
+                        ))}
                     </div>
                 ) : (
                     <div className="glass p-16 rounded-[32px] text-center border-dashed border-2 border-white/5 bg-white/[0.02]">
@@ -150,6 +125,23 @@ const MyReservations = () => {
                     </div>
                 )}
             </section>
+
+            {/* Section 2: Already Booked (Paid) */}
+            {bookedTrips.length > 0 && (
+                <section>
+                    <header className="mb-10">
+                        <h2 className="text-3xl font-black bg-linear-to-r from-teal-glow to-primary bg-clip-text text-transparent uppercase">
+                            {t('bookedTrips')}
+                        </h2>
+                        <p className="text-text-muted mt-2 font-bold uppercase text-[10px] tracking-widest">{t('completedTrips')}</p>
+                    </header>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {bookedTrips.map(b => (
+                            <TripCard key={b.id} viaje={b} showReserve={false} isBooked={true} />
+                        ))}
+                    </div>
+                </section>
+            )}
         </main>
     );
 };

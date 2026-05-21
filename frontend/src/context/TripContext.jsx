@@ -50,6 +50,7 @@ export const TripProvider = ({ children }) => {
                     id: t.id_plan,
                     titulo: t.nombre,
                     destino: t.destino ? `${t.destino.ciudad}, ${t.destino.pais}` : 'Destino desconocido',
+                    destino_descripcion: t.destino ? t.destino.descripcion : null,
                     precio: t.precio_total,
                     descripcion: t.descripcion,
                     rol: roles[Math.floor(Math.random() * roles.length)]
