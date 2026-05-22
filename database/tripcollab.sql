@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2026 a las 03:44:21
+-- Servidor: localhost:3307
+-- Tiempo de generación: 22-05-2026 a las 06:56:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -117,16 +117,18 @@ CREATE TABLE `planes` (
   `nombre` varchar(150) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `precio_total` decimal(10,2) NOT NULL,
-  `id_destino` int(11) NOT NULL
+  `id_destino` int(11) NOT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `planes`
 --
 
-INSERT INTO `planes` (`id_plan`, `nombre`, `descripcion`, `precio_total`, `id_destino`) VALUES
-(1, 'Escapada a Madrid', 'Viaje de fin de semana por Madrid.', 250.00, 1),
-(2, 'Viaje romántico a París', 'Plan de 3 días en París.', 550.00, 2);
+INSERT INTO `planes` (`id_plan`, `nombre`, `descripcion`, `precio_total`, `id_destino`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 'Escapada a Madrid', 'Viaje de fin de semana por Madrid.', 250.00, 1, '2026-06-10', '2026-06-12'),
+(2, 'Viaje romántico a París', 'Plan de 3 días en París.', 550.00, 2, '2026-07-01', '2026-07-05');
 
 -- --------------------------------------------------------
 
