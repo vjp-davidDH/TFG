@@ -37,7 +37,9 @@ const Dashboard = ({ searchTerm }) => {
                 titulo: trip.nombre,
                 destino: trip.destino ? `${trip.destino.ciudad}, ${trip.destino.pais}` : 'Destino desconocido',
                 precio: trip.precio_total,
-                rol: 'creador'
+                rol: 'creador',
+                fechaInicio: nuevoViaje.fechaInicio ? nuevoViaje.fechaInicio[0]?.toISOString() : '',
+                fechaFin: nuevoViaje.fechaFin ? nuevoViaje.fechaFin[0]?.toISOString() : ''
             };
 
             setAvailableTrips([mappedTrip, ...availableTrips]);

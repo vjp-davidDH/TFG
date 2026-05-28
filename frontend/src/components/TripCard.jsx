@@ -183,7 +183,7 @@ const getDestinoDescripcion = (viaje) => {
 
 const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, onRemove, isBooked = false }) => {
     const { t } = useLanguage();
-    const { addReservation, addFavorite } = useTrips();
+    const { addReservation, addFavorite, removeFavorite, favorites = [] } = useTrips();
     const [showDetails, setShowDetails] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const navigate = useNavigate();
@@ -254,17 +254,31 @@ const TripCard = ({ viaje, showReserve = true, showConfirm = false, onConfirm, o
                                 <button
                                     onClick={async (e) => {
                                         e.stopPropagation();
-                                        const success = await addFavorite(viaje.id);
-                                        if (success) {
-                                            alert('¡Añadido a favoritos!');
+                                        const isFav = favorites.includes(viaje.id);
+                                        if (isFav) {
+                                            const success = await removeFavorite(viaje.id);
+                                            if (success) {
+                                                alert('¡Eliminado de favoritos!');
+                                            } else {
+                                                alert('Hubo un error al eliminar de favoritos.');
+                                            }
                                         } else {
-                                            alert('Ya está en tus favoritos o hubo un error.');
+                                            const success = await addFavorite(viaje.id);
+                                            if (success) {
+                                                alert('¡Añadido a favoritos!');
+                                            } else {
+                                                alert('Hubo un error al añadir a favoritos.');
+                                            }
                                         }
                                     }}
-                                    className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-md flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-lg backdrop-blur-md"
-                                    title="Añadir a favoritos"
+                                    className={`w-8 h-8 rounded-md flex items-center justify-center transition-all shadow-lg backdrop-blur-md ${
+                                        favorites.includes(viaje.id)
+                                        ? 'bg-amber-500 text-white border border-amber-500'
+                                        : 'bg-amber-500/10 border border-amber-500/20 text-amber-500 hover:bg-amber-500 hover:text-white'
+                                    }`}
+                                    title={favorites.includes(viaje.id) ? "Eliminar de favoritos" : "Añadir a favoritos"}
                                 >
-                                    <StarIcon />
+                                    <StarIcon fill={favorites.includes(viaje.id) ? "white" : "none"} />
                                 </button>
                             )}
                             {onRemove && (

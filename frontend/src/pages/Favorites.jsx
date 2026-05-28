@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useTrips } from '../context/TripContext';
 import TripCard from '../components/TripCard';
 import apiClient from '../services/api';
 
 const Favorites = () => {
     const { t } = useLanguage();
+    const { removeFavorite } = useTrips();
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -27,8 +29,12 @@ const Favorites = () => {
 
     const handleRemove = async (idPlan) => {
         try {
-            await apiClient.favorites.delete(idPlan);
-            setFavorites(prev => prev.filter(f => f.id_plan !== idPlan));
+            const success = await removeFavorite(idPlan);
+            if (success) {
+                setFavorites(prev => prev.filter(f => f.id_plan !== idPlan));
+            } else {
+                throw new Error('No se pudo eliminar del servidor');
+            }
         } catch (err) {
             alert('Error al eliminar de favoritos: ' + err.message);
         }

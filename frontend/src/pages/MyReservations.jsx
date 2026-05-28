@@ -49,17 +49,10 @@ const MyReservations = () => {
         fetchReservas();
     }, [localReservations]);
 
-    const handleConfirm = (reserva) => {
+    const handleConfirm = (viaje) => {
         navigate('/reserva', { 
             state: { 
-                trip: {
-                    ...reserva.plan,
-                    id: reserva.plan?.id_plan || reserva.id_plan,
-                    id_reserva: reserva.id_reserva,
-                    titulo: reserva.plan?.nombre || 'Sin título',
-                    destino: reserva.plan?.destino,
-                    precio: reserva.plan?.precio_total || 0,
-                } 
+                trip: viaje 
             } 
         });
     };

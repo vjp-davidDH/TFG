@@ -45,16 +45,20 @@ const Reservation = () => {
             return;
         }
 
-        // Simulate payment
-        alert(t('paymentSuccess'));
         const mappedMethod = {
             card: 'tarjeta',
             paypal: 'paypal',
             apple: 'tarjeta',
             google: 'tarjeta'
         }[paymentMethod] || 'tarjeta';
-        await confirmBooking(trip, mappedMethod);
-        navigate('/reservas');
+
+        const success = await confirmBooking(trip, mappedMethod);
+        if (success) {
+            alert(t('paymentSuccess'));
+            navigate('/reservas');
+        } else {
+            alert(t('paymentError'));
+        }
     };
 
     return (

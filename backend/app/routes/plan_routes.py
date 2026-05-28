@@ -8,7 +8,7 @@ plan_bp = Blueprint("planes", __name__)
 @plan_bp.route("/", methods=["GET"])
 def list_planes():
     planes = PlanService.list_all()
-    return jsonify([p.to_dict() for p in planes]), 200
+    return jsonify([p.to_dict(include_relations=True) for p in planes]), 200
 
 
 @plan_bp.route("/<int:pid>", methods=["GET"])

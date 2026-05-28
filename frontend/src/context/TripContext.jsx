@@ -32,6 +32,8 @@ export const TripProvider = ({ children }) => {
     });
 
     const [allDestinations, setAllDestinations] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
         localStorage.setItem('user_reservations', JSON.stringify(reservations));
@@ -42,19 +44,48 @@ export const TripProvider = ({ children }) => {
     }, [bookedTrips]);
 
     useEffect(() => {
+        const handleStorageChange = () => setToken(localStorage.getItem('token'));
+        window.addEventListener('storage', handleStorageChange);
+        const interval = setInterval(handleStorageChange, 1000);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            clearInterval(interval);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!token) {
+            setFavorites([]);
+            return;
+        }
+
         const fetchTrips = async () => {
             try {
                 const trips = await apiClient.trips.getAll();
                 console.log('Trips from API:', trips);
-                const mappedTrips = trips.map(t => ({
-                    id: t.id_plan,
-                    titulo: t.nombre,
-                    destino: t.destino ? `${t.destino.ciudad}, ${t.destino.pais}` : 'Destino desconocido',
-                    destino_descripcion: t.destino ? t.destino.descripcion : null,
-                    precio: t.precio_total,
-                    descripcion: t.descripcion,
-                    rol: roles[Math.floor(Math.random() * roles.length)]
-                }));
+                const mappedTrips = trips.map(t => {
+                    let fechaInicio = '';
+                    let fechaFin = '';
+                    if (t.transportes && t.transportes.length > 0) {
+                        const salidas = t.transportes.map(tr => tr.fecha_salida).filter(Boolean).sort();
+                        const llegadas = t.transportes.map(tr => tr.fecha_llegada).filter(Boolean).sort();
+                        fechaInicio = salidas[0] ? salidas[0].split('T')[0] : '';
+                        fechaFin = llegadas[llegadas.length - 1] ? llegadas[llegadas.length - 1].split('T')[0] : '';
+                    }
+                    return {
+                        id: t.id_plan,
+                        titulo: t.nombre,
+                        destino: t.destino ? `${t.destino.ciudad}, ${t.destino.pais}` : 'Destino desconocido',
+                        destino_descripcion: t.destino ? t.destino.descripcion : null,
+                        precio: t.precio_total,
+                        descripcion: t.descripcion,
+                        fechaInicio,
+                        fechaFin,
+                        alojamientos: t.alojamientos || [],
+                        transportes: t.transportes || [],
+                        rol: roles[Math.floor(Math.random() * roles.length)]
+                    };
+                });
                 setAvailableTrips(mappedTrips);
             } catch (error) {
                 console.error('Error fetching trips:', error);
@@ -70,9 +101,19 @@ export const TripProvider = ({ children }) => {
             }
         };
 
+        const fetchFavorites = async () => {
+            try {
+                const favs = await apiClient.favorites.getAll();
+                setFavorites(favs.map(f => f.id_plan));
+            } catch (error) {
+                console.error('Error fetching favorites:', error);
+            }
+        };
+
         fetchTrips();
         fetchDestinations();
-    }, []);
+        fetchFavorites();
+    }, [token]);
 
     const addReservation = (trip) => {
         if (!reservations.find(r => r.id === trip.id)) {
@@ -128,6 +169,7 @@ export const TripProvider = ({ children }) => {
     const addFavorite = async (id_plan) => {
         try {
             await apiClient.favorites.add(id_plan);
+            setFavorites(prev => [...prev, id_plan]);
             return true;
         } catch (error) {
             console.error('Error adding favorite:', error);
@@ -138,6 +180,7 @@ export const TripProvider = ({ children }) => {
     const removeFavorite = async (id_plan) => {
         try {
             await apiClient.favorites.delete(id_plan);
+            setFavorites(prev => prev.filter(id => id !== id_plan));
             return true;
         } catch (error) {
             console.error('Error removing favorite:', error);
@@ -147,7 +190,7 @@ export const TripProvider = ({ children }) => {
 
     return (
         <TripContext.Provider value={{
-            availableTrips, reservations, bookedTrips, allDestinations,
+            availableTrips, reservations, bookedTrips, allDestinations, favorites,
             addReservation, confirmBooking, removeReservation, setAvailableTrips,
             addFavorite, removeFavorite
         }}>
