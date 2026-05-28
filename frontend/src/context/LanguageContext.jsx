@@ -62,6 +62,7 @@ const translations = {
         expiry: "Caducidad",
         cvv: "CVV",
         paymentSuccess: "¡Pago realizado con éxito! Tu viaje está confirmado.",
+        paymentSuccessShort: "Pago realizado con éxito",
         bookedTrips: "Viajes ya reservados",
         price: "Precio",
         loginWithGoogle: "Entrar con Google",
@@ -79,7 +80,8 @@ const translations = {
         password: "Contraseña",
         savedDestinations: "Tus destinos guardados",
         tripSummary: "Este viaje incluye alojamiento premium, guías locales y actividades exclusivas.",
-        paymentInfo: "Procede con el pago seguro desde tu dispositivo móvil"
+        paymentInfo: "Procede con el pago seguro desde tu dispositivo móvil",
+        aboutPlace: "Descripción del lugar"
     },
     en: {
         myReservations: "My reservations",
@@ -142,6 +144,7 @@ const translations = {
         expiry: "Expiry",
         cvv: "CVV",
         paymentSuccess: "Payment successful! Your trip is confirmed.",
+        paymentSuccessShort: "Payment successful",
         bookedTrips: "Booked Trips",
         price: "Price",
         loginWithGoogle: "Login with Google",
@@ -159,7 +162,8 @@ const translations = {
         password: "Password",
         savedDestinations: "Your saved destinations",
         tripSummary: "This trip includes premium accommodation, local guides and exclusive activities.",
-        paymentInfo: "Proceed with secure payment from your mobile device"
+        paymentInfo: "Proceed with secure payment from your mobile device",
+        aboutPlace: "About the place"
     }
 };
 

@@ -36,7 +36,7 @@ Abre **otra nueva terminal** (para no cerrar la del backend) y ejecuta los sigui
 ```powershell
 # 1. Moverse a la carpeta del frontend
 cd frontend/
-npm run install
+npm install
 npm run dev
 ```
 

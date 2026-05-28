@@ -10,6 +10,7 @@ const MyReservations = () => {
     const navigate = useNavigate();
     const { reservations: localReservations, removeReservation } = useTrips();
     const [reservas, setReservas] = useState([]);
+    const [reservasDB, setReservasDB] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -19,6 +20,7 @@ const MyReservations = () => {
             setError(null);
             try {
                 const dbReservas = await apiClient.reservations.getAll();
+                setReservasDB(dbReservas);
                 const mappedLocal = localReservations.map(lr => ({
                     id_reserva: `local-${lr.id}`,
                     id_usuario: null,
@@ -37,7 +39,6 @@ const MyReservations = () => {
                 }));
                 const dbPlanIds = new Set(dbReservas.map(r => r.id_plan));
                 const filteredLocal = mappedLocal.filter(lr => !dbPlanIds.has(lr.id_plan));
-
                 setReservas([...dbReservas, ...filteredLocal]);
             } catch (err) {
                 setError(err.message || 'Error al cargar reservas');
@@ -93,6 +94,60 @@ const MyReservations = () => {
         return { fechaInicio: null, fechaFin: null };
     };
 
+    // Helper para obtener el viaje a mostrar en TripCard, adaptando claves del backend
+    const getViajeFromReserva = (r) => {
+        if (r.plan) {
+            const plan = r.plan;
+            return {
+                id: plan.id_plan || r.id_plan,
+                id_reserva: r.id_reserva,
+                titulo: plan.titulo || plan.nombre || 'Sin título',
+                destino: plan.destino || '',
+                descripcion: plan.descripcion || '',
+                precio: plan.precio_total || plan.precio || 0,
+                fechaInicio: plan.fecha_inicio || plan.fechaInicio || '',
+                fechaFin: plan.fecha_fin || plan.fechaFin || '',
+                alojamientos: plan.alojamientos || [],
+                transportes: plan.transportes || [],
+                destino_descripcion: plan.destino ? plan.destino.descripcion : '',
+                // ...otros campos que quieras mapear
+            };
+        }
+        // fallback si no hay plan anidado
+        return {
+            id: r.id_plan,
+            id_reserva: r.id_reserva,
+            titulo: r.titulo || 'Sin título',
+            destino: r.destino || '',
+            descripcion: r.descripcion || '',
+            precio: r.precio_total || 0,
+            fechaInicio: r.fecha_inicio || '',
+            fechaFin: r.fecha_fin || '',
+            // ...otros campos si es necesario
+        };
+    };
+
+    // Filtrar reservas pendientes y confirmadas
+    const reservasPendientes = reservasDB.filter(r => r.estado === 'pendiente');
+    const reservasConfirmadas = reservasDB.filter(r => r.estado === 'confirmada');
+    // Agregar reservas locales solo a pendientes
+    const mappedLocal = reservas.filter(r => typeof r.id_reserva === 'string' && r.id_reserva.startsWith('local-'));
+
+    if (loading) {
+        return (
+            <main className="max-w-7xl mx-auto px-6 pt-24 pb-12 animate-in fade-in duration-500 space-y-16">
+                <div className="text-center text-xl font-bold text-text-muted">Cargando reservas...</div>
+            </main>
+        );
+    }
+    if (error) {
+        return (
+            <main className="max-w-7xl mx-auto px-6 pt-24 pb-12 animate-in fade-in duration-500 space-y-16">
+                <div className="text-center text-xl font-bold text-red-500">{error}</div>
+            </main>
+        );
+    }
+
     return (
         <main className="max-w-7xl mx-auto px-6 pt-24 pb-12 animate-in fade-in duration-500 space-y-16">
             <section>
@@ -105,43 +160,30 @@ const MyReservations = () => {
                     </div>
                 </header>
 
-                {loading ? (
-                    <div className="glass p-16 rounded-[32px] text-center border-dashed border-2 border-white/5 bg-white/[0.02]">
-                        <div className="text-5xl mb-4">⏳</div>
-                        <h2 className="text-xl font-bold text-text-muted">Cargando reservas...</h2>
-                    </div>
-                ) : error ? (
-                    <div className="glass p-16 rounded-[32px] text-center border-dashed border-2 border-white/5 bg-white/[0.02]">
-                        <div className="text-5xl mb-4">❌</div>
-                        <h2 className="text-xl font-bold text-text-muted">{error}</h2>
-                    </div>
-                ) : reservas.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {reservas.map(r => {
-                            const { fechaInicio, fechaFin } = getDates(r.plan);
-                            return (
-                                <TripCard
-                                    key={r.id_reserva}
-                                    viaje={{
-                                        ...r.plan,
-                                        id: r.id_reserva,
-                                        titulo: r.plan?.nombre || 'Sin título',
-                                        destino: r.plan?.destino,
-                                        precio: r.plan?.precio_total || 0,
-                                        fechaInicio,
-                                        fechaFin,
-                                        estado: r.estado,
-                                        total_pagado: r.total_pagado,
-                                        fecha_reserva: r.fecha_reserva,
-                                        rol: r.plan?.rol || 'colaborador'
-                                    }}
-                                    showReserve={false}
-                                    showConfirm={r.estado === 'pendiente'}
-                                    onConfirm={() => handleConfirm(r)}
-                                    onRemove={() => handleRemove(r.id_reserva)}
-                                />
-                            );
-                        })}
+                {(reservasPendientes.length > 0 || mappedLocal.length > 0) ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {reservasPendientes.map(r => (
+                            <TripCard 
+                                key={r.id_reserva || r.id} 
+                                viaje={getViajeFromReserva(r)} 
+                                showReserve={false} 
+                                showConfirm={true} 
+                                onConfirm={handleConfirm}
+                                onRemove={() => handleRemove(r.id_reserva || r.id)}
+                                getDates={getDates}
+                            />
+                        ))}
+                        {mappedLocal.map(r => (
+                            <TripCard 
+                                key={r.id_reserva || r.id} 
+                                viaje={getViajeFromReserva(r)} 
+                                showReserve={false} 
+                                showConfirm={true} 
+                                onConfirm={handleConfirm}
+                                onRemove={() => handleRemove(r.id_reserva || r.id)}
+                                getDates={getDates}
+                            />
+                        ))}
                     </div>
                 ) : (
                     <div className="glass p-16 rounded-[32px] text-center border-dashed border-2 border-white/5 bg-white/[0.02]">
@@ -150,6 +192,23 @@ const MyReservations = () => {
                     </div>
                 )}
             </section>
+
+            {/* Section 2: Already Booked (Paid) */}
+            {reservasConfirmadas.length > 0 && (
+                <section>
+                    <header className="mb-10">
+                        <h2 className="text-3xl font-black bg-linear-to-r from-teal-glow to-primary bg-clip-text text-transparent uppercase">
+                            {t('bookedTrips')}
+                        </h2>
+                        <p className="text-text-muted mt-2 font-bold uppercase text-[10px] tracking-widest">{t('completedTrips')}</p>
+                    </header>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {reservasConfirmadas.map(b => (
+                            <TripCard key={b.id_reserva || b.id} viaje={getViajeFromReserva(b)} showReserve={false} isBooked={true} getDates={getDates} />
+                        ))}
+                    </div>
+                </section>
+            )}
         </main>
     );
 };
